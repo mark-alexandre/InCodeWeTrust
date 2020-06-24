@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\DrugsRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -31,6 +33,16 @@ class Drugs
      * @ORM\Column(type="integer")
      */
     private $frequency;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class, mappedBy="drugs")
+     */
+    private $users;
+
+    public function __construct()
+    {
+        $this->users = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -69,6 +81,34 @@ class Drugs
     public function setFrequency(int $frequency): self
     {
         $this->frequency = $frequency;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->addDrug($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->contains($user)) {
+            $this->users->removeElement($user);
+            $user->removeDrug($this);
+        }
 
         return $this;
     }

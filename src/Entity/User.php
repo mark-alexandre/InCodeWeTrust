@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -40,6 +42,54 @@ class User implements UserInterface
      * @ORM\Column(type="boolean")
      */
     private $isVerified = false;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Disease::class, inversedBy="users")
+     */
+    private $disease;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Report::class, inversedBy="users")
+     */
+    private $report;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Drugs::class, inversedBy="users")
+     */
+    private $drugs;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Doctor::class, inversedBy="users")
+     */
+    private $doctor;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $socialNumber;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $name;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $address;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $city;
+
+    public function __construct()
+    {
+        $this->disease = new ArrayCollection();
+        $this->report = new ArrayCollection();
+        $this->drugs = new ArrayCollection();
+
+    }
 
     public function getId(): ?int
     {
@@ -127,6 +177,144 @@ class User implements UserInterface
     public function setIsVerified(bool $isVerified): self
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Disease[]
+     */
+    public function getDisease(): Collection
+    {
+        return $this->disease;
+    }
+
+    public function addDisease(Disease $disease): self
+    {
+        if (!$this->disease->contains($disease)) {
+            $this->disease[] = $disease;
+        }
+
+        return $this;
+    }
+
+    public function removeDisease(Disease $disease): self
+    {
+        if ($this->disease->contains($disease)) {
+            $this->disease->removeElement($disease);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Report[]
+     */
+    public function getReport(): Collection
+    {
+        return $this->report;
+    }
+
+    public function addReport(Report $report): self
+    {
+        if (!$this->report->contains($report)) {
+            $this->report[] = $report;
+        }
+
+        return $this;
+    }
+
+    public function removeReport(Report $report): self
+    {
+        if ($this->report->contains($report)) {
+            $this->report->removeElement($report);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Drugs[]
+     */
+    public function getDrugs(): Collection
+    {
+        return $this->drugs;
+    }
+
+    public function addDrug(Drugs $drug): self
+    {
+        if (!$this->drugs->contains($drug)) {
+            $this->drugs[] = $drug;
+        }
+
+        return $this;
+    }
+
+    public function removeDrug(Drugs $drug): self
+    {
+        if ($this->drugs->contains($drug)) {
+            $this->drugs->removeElement($drug);
+        }
+
+        return $this;
+    }
+
+    public function getDoctor(): ?Doctor
+    {
+        return $this->doctor;
+    }
+
+    public function setDoctor(?Doctor $doctor): self
+    {
+        $this->doctor = $doctor;
+
+        return $this;
+    }
+
+    public function getSocialNumber(): ?int
+    {
+        return $this->socialNumber;
+    }
+
+    public function setSocialNumber(?int $socialNumber): self
+    {
+        $this->socialNumber = $socialNumber;
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(?string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    public function setAddress(?string $address): self
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    public function getCity(): ?string
+    {
+        return $this->city;
+    }
+
+    public function setCity(?string $city): self
+    {
+        $this->city = $city;
 
         return $this;
     }

@@ -2,15 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\DeseaseRepository;
+use App\Repository\DoctorRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=MaladieRepository::class)
+ * @ORM\Entity(repositoryClass=DoctorRepository::class)
  */
-class Disease
+class Doctor
 {
     /**
      * @ORM\Id()
@@ -25,24 +25,23 @@ class Disease
     private $name;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="string", length=255)
      */
-    private $duration;
+    private $address;
 
     /**
-     * @ORM\ManyToMany(targetEntity=User::class, mappedBy="disease")
+     * @ORM\Column(type="string", length=255)
+     */
+    private $city;
+
+    /**
+     * @ORM\OneToMany(targetEntity=User::class, mappedBy="doctor")
      */
     private $users;
-
-    /**
-     * @ORM\ManyToMany(targetEntity=Advice::class)
-     */
-    private $advice;
 
     public function __construct()
     {
         $this->users = new ArrayCollection();
-        $this->advice = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -62,14 +61,26 @@ class Disease
         return $this;
     }
 
-    public function getDuration(): ?bool
+    public function getAddress(): ?string
     {
-        return $this->duration;
+        return $this->address;
     }
 
-    public function setDuration(bool $duration): self
+    public function setAddress(string $address): self
     {
-        $this->duration = $duration;
+        $this->address = $address;
+
+        return $this;
+    }
+
+    public function getCity(): ?string
+    {
+        return $this->city;
+    }
+
+    public function setCity(string $city): self
+    {
+        $this->city = $city;
 
         return $this;
     }
@@ -86,7 +97,7 @@ class Disease
     {
         if (!$this->users->contains($user)) {
             $this->users[] = $user;
-            $user->addDisease($this);
+            $user->setDoctor($this);
         }
 
         return $this;
@@ -96,33 +107,10 @@ class Disease
     {
         if ($this->users->contains($user)) {
             $this->users->removeElement($user);
-            $user->removeDisease($this);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Advice[]
-     */
-    public function getAdvice(): Collection
-    {
-        return $this->advice;
-    }
-
-    public function addAdvice(Advice $advice): self
-    {
-        if (!$this->advice->contains($advice)) {
-            $this->advice[] = $advice;
-        }
-
-        return $this;
-    }
-
-    public function removeAdvice(Advice $advice): self
-    {
-        if ($this->advice->contains($advice)) {
-            $this->advice->removeElement($advice);
+            // set the owning side to null (unless already changed)
+            if ($user->getDoctor() === $this) {
+                $user->setDoctor(null);
+            }
         }
 
         return $this;
