@@ -25,14 +25,15 @@ class Report
     private $date;
 
     /**
-     * @ORM\ManyToMany(targetEntity=User::class, mappedBy="report")
-     */
-    private $users;
-
-    /**
      * @ORM\Column(type="string", length=255)
      */
     private $result;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="reports")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
 
     public function __construct()
     {
@@ -56,34 +57,6 @@ class Report
         return $this;
     }
 
-    /**
-     * @return Collection|User[]
-     */
-    public function getUsers(): Collection
-    {
-        return $this->users;
-    }
-
-    public function addUser(User $user): self
-    {
-        if (!$this->users->contains($user)) {
-            $this->users[] = $user;
-            $user->addReport($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUser(User $user): self
-    {
-        if ($this->users->contains($user)) {
-            $this->users->removeElement($user);
-            $user->removeReport($this);
-        }
-
-        return $this;
-    }
-
     public function getResult(): ?string
     {
         return $this->result;
@@ -92,6 +65,18 @@ class Report
     public function setResult(string $result): self
     {
         $this->result = $result;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }
