@@ -6,6 +6,7 @@ use App\Entity\Messaging;
 use App\Form\MessagingType;
 use App\Repository\MessagingRepository;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,10 +33,17 @@ class HomeController extends AbstractController
         }
 
         return $this->render('home/index.html.twig', [
-            'controller_name' => 'HomeController',
             'messaging' => $messaging,
             'form' => $form->createView(),
             'messagings' => $messagingRepository->findAll()
         ]);
+    }
+
+    /**
+     * @Route("/connected", name="home_connected")
+     */
+    public function indexConnected()
+    {
+        return $this->render('home/indexConnected.html.twig');
     }
 }

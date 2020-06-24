@@ -44,19 +44,51 @@ class User implements UserInterface
     private $isVerified = false;
 
     /**
-     * @ORM\OneToMany(targetEntity=Messaging::class, mappedBy="author")
+     * @ORM\ManyToMany(targetEntity=Disease::class, inversedBy="users")
      */
-    private $messagings;
+    private $disease;
 
     /**
-     * @ORM\OneToMany(targetEntity=Messaging::class, mappedBy="destinator")
+     * @ORM\ManyToMany(targetEntity=Report::class, inversedBy="users")
      */
-    private $destinatorMessages;
+    private $report;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Drugs::class, inversedBy="users")
+     */
+    private $drugs;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Doctor::class, inversedBy="users")
+     */
+    private $doctor;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $socialNumber;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $name;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $address;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $city;
 
     public function __construct()
     {
-        $this->messagings = new ArrayCollection();
-        $this->destinatorMessages = new ArrayCollection();
+        $this->disease = new ArrayCollection();
+        $this->report = new ArrayCollection();
+        $this->drugs = new ArrayCollection();
+
     }
 
     public function getId(): ?int
@@ -150,63 +182,139 @@ class User implements UserInterface
     }
 
     /**
-     * @return Collection|Messaging[]
+     * @return Collection|Disease[]
      */
-    public function getMessagings(): Collection
+    public function getDisease(): Collection
     {
-        return $this->messagings;
+        return $this->disease;
     }
 
-    public function addMessaging(Messaging $messaging): self
+    public function addDisease(Disease $disease): self
     {
-        if (!$this->messagings->contains($messaging)) {
-            $this->messagings[] = $messaging;
-            $messaging->setAuthor($this);
+        if (!$this->disease->contains($disease)) {
+            $this->disease[] = $disease;
         }
 
         return $this;
     }
 
-    public function removeMessaging(Messaging $messaging): self
+    public function removeDisease(Disease $disease): self
     {
-        if ($this->messagings->contains($messaging)) {
-            $this->messagings->removeElement($messaging);
-            // set the owning side to null (unless already changed)
-            if ($messaging->getAuthor() === $this) {
-                $messaging->setAuthor(null);
-            }
+        if ($this->disease->contains($disease)) {
+            $this->disease->removeElement($disease);
         }
 
         return $this;
     }
 
     /**
-     * @return Collection|Messaging[]
+     * @return Collection|Report[]
      */
-    public function getDestinatorMessages(): Collection
+    public function getReport(): Collection
     {
-        return $this->destinatorMessages;
+        return $this->report;
     }
 
-    public function addDestinatorMessage(Messaging $destinatorMessage): self
+    public function addReport(Report $report): self
     {
-        if (!$this->destinatorMessages->contains($destinatorMessage)) {
-            $this->destinatorMessages[] = $destinatorMessage;
-            $destinatorMessage->setDestinator($this);
+        if (!$this->report->contains($report)) {
+            $this->report[] = $report;
         }
 
         return $this;
     }
 
-    public function removeDestinatorMessage(Messaging $destinatorMessage): self
+    public function removeReport(Report $report): self
     {
-        if ($this->destinatorMessages->contains($destinatorMessage)) {
-            $this->destinatorMessages->removeElement($destinatorMessage);
-            // set the owning side to null (unless already changed)
-            if ($destinatorMessage->getDestinator() === $this) {
-                $destinatorMessage->setDestinator(null);
-            }
+        if ($this->report->contains($report)) {
+            $this->report->removeElement($report);
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Drugs[]
+     */
+    public function getDrugs(): Collection
+    {
+        return $this->drugs;
+    }
+
+    public function addDrug(Drugs $drug): self
+    {
+        if (!$this->drugs->contains($drug)) {
+            $this->drugs[] = $drug;
+        }
+
+        return $this;
+    }
+
+    public function removeDrug(Drugs $drug): self
+    {
+        if ($this->drugs->contains($drug)) {
+            $this->drugs->removeElement($drug);
+        }
+
+        return $this;
+    }
+
+    public function getDoctor(): ?Doctor
+    {
+        return $this->doctor;
+    }
+
+    public function setDoctor(?Doctor $doctor): self
+    {
+        $this->doctor = $doctor;
+
+        return $this;
+    }
+
+    public function getSocialNumber(): ?int
+    {
+        return $this->socialNumber;
+    }
+
+    public function setSocialNumber(?int $socialNumber): self
+    {
+        $this->socialNumber = $socialNumber;
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(?string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    public function setAddress(?string $address): self
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    public function getCity(): ?string
+    {
+        return $this->city;
+    }
+
+    public function setCity(?string $city): self
+    {
+        $this->city = $city;
 
         return $this;
     }
