@@ -30,7 +30,7 @@ class ApiController extends AbstractController
             {
                 if ($k->getData()['nutriments']['salt']< $txsalt)
                 {
-                    $pro[] = $k;
+                    $prod[] = $k;
                 }
             }
         }
