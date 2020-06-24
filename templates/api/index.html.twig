@@ -1,26 +1,30 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}Hello ApiController!{% endblock %}
+{% block title %}Recherche d'aliment {% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
 
-{% for p in pro %}
+    <h1>Recherche un aliment en fonction de son taux de sel </h1>
+{{ form_start(form) }}
+    {{ form_row(form.foodSearch, {'attr' : {'placeholder': "Entrer un aliment"}, 'label': 'Un aliment :   ' }) }}
+    <br>
+    {{ form_row(form.number, {'attr' : {'placeholder': "Entrer une série"}, 'label':'Entrer une valeur : '}) }}
+    <button type="submit" class="btn btn-primary" name="btnSearch">Rechercher</button>
+    <br>
+{{ form_end(form) }}
+    <br>
+    {%  if pro is defined %}
+        {% for p in pro %}
 
-    {% if  p.image_url is defined%}
-    <img src="{{ p.image_url}}" alt="">
-        {% if p.generic_name is defined %}
-        <p>{{ p.generic_name}}</p>
+            {% if  p.image_url is defined%}
+                 <img src="{{ p.image_url}}" alt="">
+                {% if p.generic_name is defined %}
+                    <p>{{ p.generic_name}}</p>
+                {% endif %}
             {% endif %}
+            {% else %} <p>Il n'y a pas de tel produit </p>
+        {% endfor %}
     {% endif %}
-{% else %} <p>Il n'y a pas de tel produit </p>
-    {% endfor %}
 
-</div>
+
 {% endblock %}
