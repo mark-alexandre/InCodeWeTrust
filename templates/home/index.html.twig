@@ -1,8 +1,109 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}Doclib Better Life App{% endblock %}
 
 {% block body %}
+    <!--================About Area =================-->
+    <section class="about_nine_area" id="about">
+        <div class="container">
+            <div class="nine_title">
+                <h2>About this app</h2>
+            </div>
+            <div class="row">
+                <div class="col-md-7">
+                    <div class="ab_nine_text">
+                        <h4>All the tools you need in a single place </h4>
+                        <p>Chronic diseases are prevalent, affecting roughly 120 million Americans, and take a large
+                            toll on public health. The Centers for Disease Control and Prevention estimates that chronic
+                            diseases account for 70% of U.S. deaths and 75% of U.S. health care spending.</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda dicta dolores ea fugit
+                            itaque magnam magni officia praesentium quod vitae? Amet at consequatur eveniet fugit nulla numquam praesentium repellendus voluptatem.</p>
+                        <a href="#"><img src="{{ asset('assets/img/icon/apple.jpg') }}" alt=""></a>
+                        <a href="#"><img src="{{ asset('assets/img/icon/google.jpg') }}" alt=""></a>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="ab_nine_screen">
+                        <img src="{{ asset('assets/img/ab-screen-nine.png') }}" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--================End About Area =================-->
 
-WELCOME HOME!
+    <!--================Product Feature Nine Area =================-->
+    <section class="product_feature_area" id="feature">
+        <div class="container">
+            <div class="nine_title center">
+                <h2>Product Features</h2>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="nine_p_f_img">
+                        <img src="{{ asset('assets/img/nine-product.png') }}" alt="">
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="row n_product_inner">
+                        <div class="col-md-6">
+                            <div class="n_product_item">
+                                <div class="icon_box">
+                                    <img src="{{ asset('assets/img/_custom/features_2.png') }}" alt="">
+                                </div>
+                                <h4>Very Smart Design</h4>
+                                <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at. layout.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="n_product_item">
+                                <div class="icon_box">
+                                    <img src="{{ asset('assets/img/_custom/features_3.png') }}" alt="">
+                                </div>
+                                <h4>Very Smart Design</h4>
+                                <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at. layout.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="n_product_item">
+                                <div class="icon_box">
+                                    <img src="{{ asset('assets/img/_custom/features_4.png') }}" alt="">
+                                </div>
+                                <h4>Very Smart Design</h4>
+                                <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at. layout.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="n_product_item">
+                                <div class="icon_box">
+                                    <img src="{{ asset('assets/img/_custom/features_5.png') }}" alt="">
+                                </div>
+                                <h4>Very Smart Design</h4>
+                                <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at. layout.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="n_product_item">
+                                <div class="icon_box">
+                                    <img src="{{ asset('assets/img/_custom/features_6.png') }}" alt="">
+                                </div>
+                                <h4>Very Smart Design</h4>
+                                <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at. layout.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="n_product_item">
+                                <div class="icon_box">
+                                    <img src="{{ asset('assets/img/_custom/features_1.png') }}" alt="">
+                                </div>
+                                <h4>Very Smart Design</h4>
+                                <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at. layout.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--================End Product Feature Area =================-->
 {% endblock %}

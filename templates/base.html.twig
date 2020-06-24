@@ -1,12 +1,80 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" href="img/fav-icon.png" type="image/x-icon" />
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        <title>{% block title %}{% endblock %}</title>
+        {% block stylesheets %}
+            <!-- Icon css link -->
+            {{ encore_entry_link_tags('app') }}
+            <!-- Icon css link -->
+            <link href="{{ asset('assets/css/font-awesome.min.css') }}" rel="stylesheet">
+            <link href="{{ asset('assets/css/icofont.css') }}" rel="stylesheet">
+            <link href="{{ asset('assets/vendors/linear-icon/style.css') }}" rel="stylesheet">
+
+            <!-- Bootstrap -->
+            <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
+
+            <!-- Rev slider css -->
+            <link href="{{ asset('assets/vendors/revolution/css/settings.css') }}" rel="stylesheet">
+            <link href="{{ asset('assets/vendors/revolution/css/layers.css') }}" rel="stylesheet">
+            <link href="{{ asset('assets/vendors/revolution/css/navigation.css') }}" rel="stylesheet">
+            <link href="{{ asset('assets/vendors/animate-css/animate.css') }}" rel="stylesheet">
+
+            <!-- Extra plugin css -->
+            <link href="{{ asset('assets/vendors/magnific-popup/magnific-popup.css') }}" rel="stylesheet">
+            <link href="{{ asset('assets/vendors/owl-carousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
+            <link href="{{ asset('assets/vendors/swiper/css/swiper.min.css') }}" rel="stylesheet">
+
+            <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
+            <link href="{{ asset('assets/css/responsive.css') }}" rel="stylesheet">
+        {% endblock %}
     </head>
-    <body>
+    <body data-spy="scroll" data-target="#bs-example-navbar-collapse-1" data-offset="90">
+        {% include '_front-layout/_header.html.twig' %}
+        {% include '_front-layout/_top-banner.html.twig' %}
         {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+        {% include '_chat-box/_chat-box.html.twig' %}
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+            <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+            <script src="{{ asset('assets/js/jquery-2.2.4.js') }}"></script>
+            <!-- Include all compiled plugins (below), or include individual files as needed -->
+            <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
+            <!-- Rev slider js -->
+            <script src="{{ asset('assets/vendors/revolution/js/jquery.themepunch.tools.min.js') }}"></script>
+            <script src="{{ asset('assets/vendors/revolution/js/jquery.themepunch.revolution.min.js') }}"></script>
+            <script src="{{ asset('assets/vendors/revolution/js/extensions/revolution.extension.video.min.js') }}"></script>
+            <script src="{{ asset('assets/vendors/revolution/js/extensions/revolution.extension.slideanims.min.js') }}"></script>
+            <script src="{{ asset('assets/vendors/revolution/js/extensions/revolution.extension.layeranimation.min.js') }}"></script>
+            <script src="{{ asset('assets/vendors/revolution/js/extensions/revolution.extension.navigation.min.js') }}"></script>
+            <!-- Extra Plugin -->
+            <script src="{{ asset('assets/vendors/parallax/jquery.parallax-scroll.js') }}"></script>
+            <script src="{{ asset('assets/vendors/magnific-popup/jquery.magnific-popup.min.js') }}"></script>
+            <script src="{{ asset('assets/vendors/owl-carousel/owl.carousel.min.js') }}"></script>
+            <script src="{{ asset('assets/vendors/counterup/waypoints.min.js') }}"></script>
+            <script src="{{ asset('assets/vendors/counterup/jquery.counterup.min.js') }}"></script>
+            <script src="{{ asset('assets/vendors/isotope/imagesloaded.pkgd.min.js') }}"></script>
+            <script src="{{ asset('assets/vendors/isotope/isotope.pkgd.min.js') }}"></script>
+            <script src="{{ asset('assets/vendors/flexslider/flex-slider.js') }}"></script>
+            <script src="{{ asset('assets/vendors/flexslider/mixitup.js') }}"></script>
+            <script src="{{ asset('assets/vendors/nice-selector/jquery.nice-select.min.js') }}"></script>
+            <script src="{{ asset('assets/vendors/swiper/js/swiper.min.js') }}"></script>
+            <script src="{{ asset('assets/vendors/swiper/js/swiper.min.js') }}"></script>
+            <script src="{{ asset('assets/vendors/flipster-slider/jquery.flipster.min.js') }}"></script>
+            <script src="{{ asset('assets/vendors/nice-selector/jquery.nice-select.min.js') }}"></script>
+            <script src="{{ asset('assets/js/custom.js') }}"></script>
+
+            <!--gmaps Js-->
+            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
+            <script src="{{ asset('assets/js/gmaps.min.js') }}"></script>
+
+            <script src="{{ asset('assets/js/theme.js') }}"></script>
+        {% endblock %}
+        {% include '_front-layout/_footer.html.twig' %}
     </body>
 </html>
