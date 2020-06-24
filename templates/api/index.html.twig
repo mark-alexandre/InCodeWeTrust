@@ -11,10 +11,16 @@
 <div class="example-wrapper">
     <h1>Hello {{ controller_name }}! ✅</h1>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/home/vincent/Documents/Hackathon2/InCodeWeTrust/src/Controller/ApiController.php'|file_link(0) }}">src/Controller/ApiController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/home/vincent/Documents/Hackathon2/InCodeWeTrust/templates/api/index.html.twig'|file_link(0) }}">templates/api/index.html.twig</a></code></li>
-    </ul>
+{% for p in pro %}
+{{ dump(p) }}
+    {% if  p.image_url is defined%}
+    <img src="{{ p.image_url}}" alt="">
+        {% if p.generic_name is defined %}
+        <p>{{ p.generic_name}}</p>
+            {% endif %}
+    {% endif %}
+{% else %} <p>Il n'y a pas de tel produit </p>
+    {% endfor %}
+
 </div>
 {% endblock %}
