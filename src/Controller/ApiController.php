@@ -23,7 +23,7 @@ class ApiController extends AbstractController
 
         $products = $api->search($product);
 
-        $pro =[];
+        $prod =[];
         foreach($products as $k)
         {
             if (isset($k->getData()['nutriments']['salt']))
@@ -33,13 +33,11 @@ class ApiController extends AbstractController
                     $pro[] = $k;
                 }
             }
-
         }
 
         return $this->render('api/index.html.twig', [
             'controller_name' => 'ApiController',
-            'product' => $products,
-            'pro' => $pro
+            'pro' => $prod
         ]);
     }
 }
