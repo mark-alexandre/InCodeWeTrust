@@ -1,8 +1,49 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Hello HomeController!{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+{% endblock %}
 
 {% block body %}
 
 WELCOME HOME!
+    <div id="messages">
+
+    </div>
+    <div id="ajax-results">here comes the result</div>
+
+    {% include '/messaging/index.html.twig' %}
+
+    {% include '/messaging/new.html.twig' %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        $(document).ready(function test() {
+            setInterval(function test() {
+                let ajaxResult = $("#ajax-results");
+                let myInit = {
+                    method: 'GET',
+                    mode: 'same-origin',
+                    cache: 'default'
+                };
+                fetch('messaging', myInit).then(response => response.json())
+                    .then(json => {
+                        $(".message").remove()
+                        for (let i = 0; i < json.length; i++) {
+                            const obj = json[i];
+                            console.log(obj.content);
+                            ajaxResult.append("<p class='message' >" + obj.content + " </p>");
+                        }
+                    })
+                    .catch(() => alert('error'));
+            }, 5000)
+        })
+    </script>
+
 {% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Messaging{% endblock %}
+
+{% block body %}
+    <h1>Messaging</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ messaging.id }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ messaging.date ? messaging.date|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Content</th>
+                <td>{{ messaging.content }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('messaging_index') }}">back to list</a>
+
+    <a href="{{ path('messaging_edit', {'id': messaging.id}) }}">edit</a>
+
+    {{ include('messaging/_delete_form.html.twig') }}
+{% endblock %}

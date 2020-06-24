@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -40,6 +42,22 @@ class User implements UserInterface
      * @ORM\Column(type="boolean")
      */
     private $isVerified = false;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Messaging::class, mappedBy="author")
+     */
+    private $messagings;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Messaging::class, mappedBy="destinator")
+     */
+    private $destinatorMessages;
+
+    public function __construct()
+    {
+        $this->messagings = new ArrayCollection();
+        $this->destinatorMessages = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -127,6 +145,68 @@ class User implements UserInterface
     public function setIsVerified(bool $isVerified): self
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Messaging[]
+     */
+    public function getMessagings(): Collection
+    {
+        return $this->messagings;
+    }
+
+    public function addMessaging(Messaging $messaging): self
+    {
+        if (!$this->messagings->contains($messaging)) {
+            $this->messagings[] = $messaging;
+            $messaging->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessaging(Messaging $messaging): self
+    {
+        if ($this->messagings->contains($messaging)) {
+            $this->messagings->removeElement($messaging);
+            // set the owning side to null (unless already changed)
+            if ($messaging->getAuthor() === $this) {
+                $messaging->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Messaging[]
+     */
+    public function getDestinatorMessages(): Collection
+    {
+        return $this->destinatorMessages;
+    }
+
+    public function addDestinatorMessage(Messaging $destinatorMessage): self
+    {
+        if (!$this->destinatorMessages->contains($destinatorMessage)) {
+            $this->destinatorMessages[] = $destinatorMessage;
+            $destinatorMessage->setDestinator($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDestinatorMessage(Messaging $destinatorMessage): self
+    {
+        if ($this->destinatorMessages->contains($destinatorMessage)) {
+            $this->destinatorMessages->removeElement($destinatorMessage);
+            // set the owning side to null (unless already changed)
+            if ($destinatorMessage->getDestinator() === $this) {
+                $destinatorMessage->setDestinator(null);
+            }
+        }
 
         return $this;
     }
