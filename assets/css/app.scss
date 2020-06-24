@@ -24,6 +24,45 @@ body .n_product_inner .n_product_item .icon_box img {
   width: 100px;
 }
 
+.nine_p_f_img {
+  display: flex;
+  justify-content: center;
+}
+
+.nine_p_f_img img {
+  max-width: 340px;
+}
+
+.phone2 img {
+  width: 100%;
+}
+
+.phone2 {
+  max-width: 340px;
+}
+
+.cont-phone2 {
+  display: flex;
+  justify-content: center;
+}
+
+body .n_product_inner .n_product_item h4 {
+  padding-left: 100px;
+  padding-bottom: 55px;
+}
+
+.chatbox-btn {
+  display: block;
+  position: fixed;
+  bottom: 50px;
+  right: 50px;
+}
+
+.chatbox-btn img {
+  width: 100px;
+  height: auto;
+}
+
 
 
 /* Chat Box */
