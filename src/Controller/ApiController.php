@@ -33,6 +33,7 @@ class ApiController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid())
         {
+
             $data =$form->getData();
             $api = new OpenFoodFacts\Api('food', 'fr');
 
