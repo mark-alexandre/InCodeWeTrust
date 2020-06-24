@@ -49,11 +49,6 @@ class User implements UserInterface
     private $disease;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Report::class, inversedBy="users")
-     */
-    private $report;
-
-    /**
      * @ORM\ManyToMany(targetEntity=Drugs::class, inversedBy="users")
      */
     private $drugs;
@@ -83,11 +78,17 @@ class User implements UserInterface
      */
     private $city;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Report::class, mappedBy="user")
+     */
+    private $reports;
+
     public function __construct()
     {
         $this->disease = new ArrayCollection();
         $this->report = new ArrayCollection();
         $this->drugs = new ArrayCollection();
+        $this->reports = new ArrayCollection();
 
     }
 
@@ -207,31 +208,6 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @return Collection|Report[]
-     */
-    public function getReport(): Collection
-    {
-        return $this->report;
-    }
-
-    public function addReport(Report $report): self
-    {
-        if (!$this->report->contains($report)) {
-            $this->report[] = $report;
-        }
-
-        return $this;
-    }
-
-    public function removeReport(Report $report): self
-    {
-        if ($this->report->contains($report)) {
-            $this->report->removeElement($report);
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection|Drugs[]
@@ -315,6 +291,37 @@ class User implements UserInterface
     public function setCity(?string $city): self
     {
         $this->city = $city;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Report[]
+     */
+    public function getReports(): Collection
+    {
+        return $this->reports;
+    }
+
+    public function addReport(Report $report): self
+    {
+        if (!$this->reports->contains($report)) {
+            $this->reports[] = $report;
+            $report->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReport(Report $report): self
+    {
+        if ($this->reports->contains($report)) {
+            $this->reports->removeElement($report);
+            // set the owning side to null (unless already changed)
+            if ($report->getUser() === $this) {
+                $report->setUser(null);
+            }
+        }
 
         return $this;
     }
