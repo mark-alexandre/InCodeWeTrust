@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Disease;
+use App\Entity\Doctor;
 use App\Entity\Drugs;
 use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -28,7 +29,7 @@ class CompleteInformationDoctorType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => User::class,
+            'data_class' => Doctor::class,
         ]);
     }
 }
