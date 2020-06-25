@@ -2,12 +2,14 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\DoctorRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @ApiResource
  * @ORM\Entity(repositoryClass=DoctorRepository::class)
  */
 class Doctor
@@ -49,10 +51,17 @@ class Doctor
      */
     private $messagesFromPatients;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Patient::class, mappedBy="doctor", cascade={"persist", "remove"})
+     */
+    private $patients;
+
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
         $this->messagesFromPatients = new ArrayCollection();
+        $this->patients = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -146,6 +155,34 @@ class Doctor
             if ($messagesFromPatient->getDoctor() === $this) {
                 $messagesFromPatient->setDoctor(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Patient[]
+     */
+    public function getPatients(): Collection
+    {
+        return $this->patients;
+    }
+
+    public function addPatient(Patient $patient): self
+    {
+        if (!$this->patients->contains($patient)) {
+            $this->patients[] = $patient;
+            $patient->addDoctor($this);
+        }
+
+        return $this;
+    }
+
+    public function removePatient(Patient $patient): self
+    {
+        if ($this->patients->contains($patient)) {
+            $this->patients->removeElement($patient);
+            $patient->removeDoctor($this);
         }
 
         return $this;

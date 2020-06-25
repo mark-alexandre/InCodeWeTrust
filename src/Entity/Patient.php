@@ -64,12 +64,20 @@ class Patient
      */
     private $messagings;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Doctor::class, inversedBy="patients")
+     */
+    private $doctor;
+
+
+
     public function __construct()
     {
         $this->disease = new ArrayCollection();
         $this->drugs = new ArrayCollection();
         $this->reports = new ArrayCollection();
         $this->messagings = new ArrayCollection();
+        $this->doctor = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -246,6 +254,32 @@ class Patient
             if ($messaging->getPatient() === $this) {
                 $messaging->setPatient(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Doctor[]
+     */
+    public function getDoctor(): Collection
+    {
+        return $this->doctor;
+    }
+
+    public function addDoctor(Doctor $doctor): self
+    {
+        if (!$this->doctor->contains($doctor)) {
+            $this->doctor[] = $doctor;
+        }
+
+        return $this;
+    }
+
+    public function removeDoctor(Doctor $doctor): self
+    {
+        if ($this->doctor->contains($doctor)) {
+            $this->doctor->removeElement($doctor);
         }
 
         return $this;

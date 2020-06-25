@@ -13,7 +13,7 @@ use OpenFoodFacts;
 /**
  * Class ApiController
  * @package App\Controller
- * @Route("/api")
+ * @Route("/api-advice")
  */
 class ApiController extends AbstractController
 {

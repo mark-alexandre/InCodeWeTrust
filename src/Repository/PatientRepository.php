@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Entity\Patient;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -47,4 +49,34 @@ class PatientRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    /**
+     * @param int $id
+     */
+
+    public function addDoctor(EntityManagerInterface $em, $idDoc, $idPatient) {
+        return $em->createQuery(
+            'UPDATE App\Entity\Patient p SET p.doctor ='.$idDoc.' WHERE p.id = '.$idPatient)->execute();
+
+
+    }
+
+
+
+    /**
+     * @param int $id
+     * @return Patient[] Returns an array of Patient objects
+     */
+
+    public function removeDoctor(int $id)
+    {
+        return $this->createQueryBuilder('p')
+            ->update(Patient::class,'p')
+            ->set('p.doctor', NULL)
+            ->where('p.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->execute()
+            ;
+    }
 }

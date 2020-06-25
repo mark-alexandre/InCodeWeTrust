@@ -1,28 +1,37 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin/base.html.twig' %}
 
 {% block title %}Hello DoctorController!{% endblock %}
 
 {% block body %}
-
-    <h1>Reports</h1>
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Name</th>
-            <th scope="col">Address</th>
-            <th scope="col">Security Social Number</th>
-        </tr>
-        </thead>
-        <tbody>
-            {% for patient in allPatients %}
+    <div class="container-fluid">
+        <div class="container">
+            <h1>Reports</h1>
+            <table class="table table-striped">
+                <thead>
                 <tr>
-                    <th scope="row">{{ patient.id }}</th>
-                    <td>{{ patient.name }}</td>
-                    <td>{{ patient.address }}</td>
-                    <td>{{ patient.socialNumber }}</td>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Security Social Number</th>
+                    <th scope="col">Add a patient</th>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+                </thead>
+                <tbody>
+                {% for patient in allPatients %}
+                    <tr>
+                        <th scope="row">{{ loop.index }}</th>
+                        <td>{{ patient.name }}</td>
+                        <td>{{ patient.address }}</td>
+                        <td>{{ patient.socialNumber }}</td>
+                        <td> <a href="{{ path('doctor_associate',{'id':app.user.doctor.id,'idPatient':patient.id})}}"><button type="button"> Add </button></a> </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+
 {% endblock %}

@@ -84,7 +84,7 @@ class HomeController extends AbstractController
             'messaging' => $messaging,
             'form' => $form->createView(),
             'formChat' => $formChat->createView(),
-            'messagings' =>         $messagings = $messagingRepository->findBy(array("patient" => 1), null, 10)
+            'messagings' =>$messagings = $messagingRepository->findBy(array("patient" => 1), null, 10)
 
         ]);
 
@@ -97,11 +97,11 @@ class HomeController extends AbstractController
      */
     public function showAllReport(ReportRepository $reportRepository):Response
     {
-        $userId = $this->getUser()->getId();
+        $userId = $this->getUser()->getPatient()->getId();
 
         if($reportRepository->findBy(['user'=>$userId]))
         {
-            $pastReport = $reportRepository->findBy(['user'=>$userId]);
+            $pastReport = $reportRepository->findBy(['patient'=>$userId]);
         } else {
             $pastReport = 'There is no past report';
         }
