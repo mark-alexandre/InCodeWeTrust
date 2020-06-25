@@ -35,10 +35,10 @@
         {% endblock %}
     </head>
     <body data-spy="scroll" data-target="#bs-example-navbar-collapse-1" data-offset="90">
-        {% include '_front-layout/_header.html.twig' %}
-        {% include '_front-layout/_top-banner.html.twig' %}
+        {% include '../_front-layout/_header.html.twig' %}
+        {% include '../_front-layout/_top-banner.html.twig' %}
         {% block body %}{% endblock %}
-        {% include '_chat-box/_chat-box.html.twig' %}
+        {% include '../_chat-box/_chat-box.html.twig' %}
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
             <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -75,6 +75,6 @@
 
             <script src="{{ asset('assets/js/theme.js') }}"></script>
         {% endblock %}
-        {% include '_front-layout/_footer.html.twig' %}
+        {% include '../_front-layout/_footer.html.twig' %}
     </body>
 </html>
