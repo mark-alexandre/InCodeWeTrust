@@ -22,6 +22,8 @@ class HomeController extends AbstractController
      * @Route("/", name="home")
      * @param Request $request
      * @param MessagingRepository $messagingRepository
+     * @param UserRepository $userRepository
+     * @param DoctorRepository $doctorRepository
      * @return RedirectResponse|Response
      */
     public function index(Request $request, MessagingRepository $messagingRepository, UserRepository $userRepository, DoctorRepository $doctorRepository)
@@ -45,7 +47,7 @@ class HomeController extends AbstractController
             unset($messaging);
             $messaging = new Messaging();
             $form = $this->createForm(MessagingType::class, $messaging);
-            }
+        }
 
         return $this->render('home/index.html.twig', [
             'messaging' => $messaging,
