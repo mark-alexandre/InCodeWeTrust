@@ -44,49 +44,20 @@ class User implements UserInterface
     private $isVerified = false;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Disease::class, inversedBy="users")
+     * @ORM\Column(type="string", length=255)
      */
-    private $disease;
+    private $roleList;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Drugs::class, inversedBy="users")
+     * @ORM\OneToOne(targetEntity=Patient::class, mappedBy="user", cascade={"persist", "remove"})
      */
-    private $drugs;
+    private $patient;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Doctor::class, inversedBy="users")
+     * @ORM\OneToOne(targetEntity=Doctor::class, mappedBy="user", cascade={"persist", "remove"})
      */
     private $doctor;
 
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    private $socialNumber;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $name;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $address;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $city;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Messaging::class, mappedBy="patient")
-     */
-    private $messages;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Report::class, mappedBy="user")
-     */
-    private $reports;
 
     public function __construct()
     {
@@ -240,18 +211,6 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getDoctor(): ?Doctor
-    {
-        return $this->doctor;
-    }
-
-    public function setDoctor(?Doctor $doctor): self
-    {
-        $this->doctor = $doctor;
-
-        return $this;
-    }
-
     public function getSocialNumber(): ?int
     {
         return $this->socialNumber;
@@ -357,6 +316,54 @@ class User implements UserInterface
                 $report->setUser(null);
             }
         }
+        return $this;
+    }
+
+    public function getRoleList(): ?string
+    {
+        return $this->roleList;
+    }
+
+    public function setRoleList(string $roleList): self
+    {
+        $this->roleList = $roleList;
+
+        return $this;
+    }
+
+    public function getPatient(): ?Patient
+    {
+        return $this->patient;
+    }
+
+    public function setPatient(?Patient $patient): self
+    {
+        $this->patient = $patient;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newUser = null === $patient ? null : $this;
+        if ($patient->getUser() !== $newUser) {
+            $patient->setUser($newUser);
+        }
+
+        return $this;
+    }
+
+    public function getDoctor(): ?Doctor
+    {
+        return $this->doctor;
+    }
+
+    public function setDoctor(?Doctor $doctor): self
+    {
+        $this->doctor = $doctor;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newUser = null === $doctor ? null : $this;
+        if ($doctor->getUser() !== $newUser) {
+            $doctor->setUser($newUser);
+        }
+
         return $this;
     }
 }

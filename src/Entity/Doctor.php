@@ -35,9 +35,14 @@ class Doctor
     private $city;
 
     /**
-     * @ORM\OneToMany(targetEntity=User::class, mappedBy="doctor")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $users;
+    private $numberLicense;
+
+    /**
+     * @ORM\OneToOne(targetEntity=User::class, inversedBy="doctor", cascade={"persist", "remove"})
+     */
+    private $user;
 
     /**
      * @ORM\OneToMany(targetEntity=Messaging::class, mappedBy="doctor")
@@ -91,33 +96,26 @@ class Doctor
         return $this;
     }
 
-    /**
-     * @return Collection|User[]
-     */
-    public function getUsers(): Collection
+    public function getNumberLicense(): ?string
     {
-        return $this->users;
+        return $this->numberLicense;
     }
 
-    public function addUser(User $user): self
+    public function setNumberLicense(?string $numberLicense): self
     {
-        if (!$this->users->contains($user)) {
-            $this->users[] = $user;
-            $user->setDoctor($this);
-        }
+        $this->numberLicense = $numberLicense;
 
         return $this;
     }
 
-    public function removeUser(User $user): self
+    public function getUser(): ?User
     {
-        if ($this->users->contains($user)) {
-            $this->users->removeElement($user);
-            // set the owning side to null (unless already changed)
-            if ($user->getDoctor() === $this) {
-                $user->setDoctor(null);
-            }
-        }
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

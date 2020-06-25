@@ -3,5 +3,9 @@
 {% block title %}Complete Your Account{% endblock %}
 
 {% block body %}
-<a href="{{ path('complete_form', {'id': app.user.id}) }}"><button>Complete your informations</button></a>
+    {% if app.user.patient %}
+<a href="{{ path('complete_form', {'id': app.user.patient.id}) }}"><button>Complete your informations</button></a>
+    {% elseif app.user.doctor %}
+<a href="{{ path('complete_form_doctor', {'id': app.user.doctor.id}) }}"><button>Complete your informations</button></a>
+    {% endif %}
 {% endblock %}

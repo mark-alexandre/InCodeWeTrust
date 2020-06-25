@@ -39,10 +39,16 @@ class Disease
      */
     private $advice;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Patient::class, mappedBy="disease")
+     */
+    private $patients;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
         $this->advice = new ArrayCollection();
+        $this->patients = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -123,6 +129,34 @@ class Disease
     {
         if ($this->advice->contains($advice)) {
             $this->advice->removeElement($advice);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Patient[]
+     */
+    public function getPatients(): Collection
+    {
+        return $this->patients;
+    }
+
+    public function addPatient(Patient $patient): self
+    {
+        if (!$this->patients->contains($patient)) {
+            $this->patients[] = $patient;
+            $patient->addDisease($this);
+        }
+
+        return $this;
+    }
+
+    public function removePatient(Patient $patient): self
+    {
+        if ($this->patients->contains($patient)) {
+            $this->patients->removeElement($patient);
+            $patient->removeDisease($this);
         }
 
         return $this;
