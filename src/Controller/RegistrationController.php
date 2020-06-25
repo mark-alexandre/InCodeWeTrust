@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Patient;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Security\EmailVerifier;
@@ -28,6 +29,7 @@ class RegistrationController extends AbstractController
      */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
+        $patient = new Patient;
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
@@ -40,6 +42,12 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
+            $roles = $form->get('roleList')->getData();
+            $user->setRoles(array('roles' => $roles));
+            $user->setPatient($patient);
+
+
+
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
@@ -82,6 +90,12 @@ class RegistrationController extends AbstractController
         // @TODO Change the redirect on success and handle or remove the flash message in your templates
         $this->addFlash('success', 'Your email address has been verified.');
 
-        return $this->redirectToRoute('complete_index');
+        if ($this->isGranted('ROLE_PATIENT')) {
+            return $this->redirectToRoute('complete_index');
+        }
+        else if ($this->isGranted('ROLE_DOCTOR')) {
+            return $this->redirectToRoute('complete');
+        }
+
     }
 }
