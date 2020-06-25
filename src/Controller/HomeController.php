@@ -64,8 +64,8 @@ class HomeController extends AbstractController
         if ($formChat->isSubmitted() && $formChat->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
                 $patient = $this->getUser();
-//            $doctor = $patient->getDoctor();
-            $doctor = $doctorRepository->findOneBy(array("id" => 1 ));
+            $patient = $patient->getPatient();
+            $doctor = $patient->getDoctor();
 
             $date = new DateTime('now');
             $messaging->setAuthor("patient");

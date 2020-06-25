@@ -4,7 +4,4 @@
 
 {% block body %}
     {{ include('frontend/_formReport.html.twig', {'button_label': 'Add'}) }}
-    {% for messages in messagings %}
-        <p>{{ messages.content }}</p>
-    {% endfor %}
 {% endblock %}

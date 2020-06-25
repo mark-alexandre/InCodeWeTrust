@@ -27,7 +27,6 @@ class Messaging
      */
     private $content;
 
-
     /**
      * @ORM\ManyToOne(targetEntity=Doctor::class, inversedBy="messagesFromPatients")
      * @ORM\JoinColumn(nullable=false)
@@ -35,15 +34,15 @@ class Messaging
     private $doctor;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="messages")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $patient;
-
-    /**
      * @ORM\Column(type="string", length=255)
      */
     private $author;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Patient::class, inversedBy="messagings")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $patient;
 
 
     public function getId(): ?int
@@ -87,18 +86,6 @@ class Messaging
         return $this;
     }
 
-    public function getPatient(): ?User
-    {
-        return $this->patient;
-    }
-
-    public function setPatient(?User $patient): self
-    {
-        $this->patient = $patient;
-
-        return $this;
-    }
-
     public function getAuthor(): ?string
     {
         return $this->author;
@@ -107,6 +94,18 @@ class Messaging
     public function setAuthor(string $author): self
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    public function getPatient(): ?Patient
+    {
+        return $this->patient;
+    }
+
+    public function setPatient(?Patient $patient): self
+    {
+        $this->patient = $patient;
 
         return $this;
     }
