@@ -6,6 +6,7 @@ use App\Form\NotificationsType;
 use App\Repository\DoctorRepository;
 use App\Repository\NotificationsRepository;
 use Doctrine\ORM\EntityManager;
+use App\Repository\PatientRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -45,4 +46,11 @@ class AdminController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/patients/", name="patients")
+     */
+    public function admin_patients(DoctorRepository $doctor):response
+    {
+
+    }
 }

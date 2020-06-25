@@ -84,6 +84,7 @@ class HomeController extends AbstractController
 
             $entityManager->flush();
             return $this->redirectToRoute('home_connected');
+
         }
 
         $reportQuodidien = $reportRepository->findOneBy(array('user' => $patient), array('id' => "DESC"));
@@ -152,5 +153,4 @@ class HomeController extends AbstractController
          'reports' => $pastReport
         ]);
     }
-
 }
