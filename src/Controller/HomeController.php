@@ -38,6 +38,7 @@ class HomeController extends AbstractController
 
             return $this->redirectToRoute('home_connected');
         }
+
         return $this->render('home/indexConnected.html.twig', [
             'form'=>$form->createView(),
         ]);
