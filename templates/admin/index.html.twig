@@ -1,0 +1,149 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Doclib - Doctor workspace{% endblock %}
+
+{% block body %}
+<!-- MAIN -->
+<div class="main">
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- RECENT USER SUBMISSION -->
+                    <div class="panel">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Recent User's Submissions</h3>
+                            <div class="right">
+                                <button type="button" class="btn-toggle-collapse"><i class="lnr lnr-chevron-up"></i></button>
+                                <button type="button" class="btn-remove"><i class="lnr lnr-cross"></i></button>
+                            </div>
+                        </div>
+                        <div class="panel-body no-padding">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Event Id</th>
+                                    <th>Full Name</th>
+                                    <th>Description</th>
+                                    <th>Date &amp; Time</th>
+                                    <th>Type</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td><a href="#">763648</a></td>
+                                    <td>Steve JOBS</td>
+                                    <td>Daily entry</td>
+                                    <td>Jun 21, 2020</td>
+                                    <td><span class="label label-success">SUCCESS</span></td>
+                                </tr>
+                                <tr>
+                                    <td><a href="#">763649</a></td>
+                                    <td>Amber KITIRA</td>
+                                    <td>Daily entry</td>
+                                    <td>Jun 21, 2020</td>
+                                    <td><span class="label label-success">SUCCESS</span></td>
+                                </tr>
+                                <tr>
+                                    <td><a href="#">763650</a></td>
+                                    <td>Michael JACKSON</td>
+                                    <td>Daily entry</td>
+                                    <td>Jun 18, 2020</td>
+                                    <td><span class="label label-warning">NOT DONE</span></td>
+                                </tr>
+                                <tr>
+                                    <td><a href="#">763651</a></td>
+                                    <td>Roger RABBIT</td>
+                                    <td>Direct message</td>
+                                    <td>Jun 17, 2020</td>
+                                    <td><span class="label label-danger">ASSISTANCE</span></td>
+                                </tr>
+                                <tr>
+                                    <td><a href="#">763652</a></td>
+                                    <td>Smith WILL</td>
+                                    <td>Daily entry</td>
+                                    <td>Jun 16, 2020</td>
+                                    <td><span class="label label-success">SUCCESS</span></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="panel-footer">
+                            <div class="row">
+                                <div class="col-md-6"><span class="panel-note"><i class="fa fa-clock-o"></i> Last 24 hours</span></div>
+                                <div class="col-md-6 text-right"><a href="#" class="btn btn-primary">
+                                        View Events</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END RECENT USER'S SUBMISSIONS -->
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- TODO LIST -->
+                    <div class="panel">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">To-Do List</h3>
+                            <div class="right">
+                                <button type="button" class="btn-toggle-collapse"><i class="lnr lnr-chevron-up"></i></button>
+                                <button type="button" class="btn-remove"><i class="lnr lnr-cross"></i></button>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <ul class="list-unstyled todo-list">
+                                <li>
+                                    <label class="control-inline fancy-checkbox">
+                                        <input type="checkbox"><span></span>
+                                    </label>
+                                    <p>
+                                        <span class="title">Call Mickael JACKSON</span>
+                                        <span class="short-description">He's as white as sugar...</span>
+                                        <span class="date">Jun 9, 2020</span>
+                                    </p>
+                                    <div class="controls">
+                                        <a href="#"><i class="icon-software icon-software-pencil"></i></a> <a href="#"><i class="icon-arrows icon-arrows-circle-remove"></i></a>
+                                    </div>
+                                </li>
+                                <li>
+                                    <label class="control-inline fancy-checkbox">
+                                        <input type="checkbox"><span></span>
+                                    </label>
+                                    <p>
+                                        <span class="title">Download my patients daily reports</span>
+                                        <span class="short-description">A task I have to do everyday...</span>
+                                        <span class="date">Jun 23, 2020</span>
+                                    </p>
+                                    <div class="controls">
+                                        <a href="#"><i class="icon-software icon-software-pencil"></i></a> <a href="#"><i class="icon-arrows icon-arrows-circle-remove"></i></a>
+                                    </div>
+                                </li>
+                                <li>
+                                    <label class="control-inline fancy-checkbox">
+                                        <input type="checkbox"><span></span>
+                                    </label>
+                                    <p>
+                                        <strong>Doctolib conference</strong>
+                                        <span class="short-description">In which they will explain us their new
+                                            incoming features for the app.</span>
+                                        <span class="date">Jul 11, 2020</span>
+                                    </p>
+                                    <div class="controls">
+                                        <a href="#"><i class="icon-software icon-software-pencil"></i></a> <a href="#"><i class="icon-arrows icon-arrows-circle-remove"></i></a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- END TODO LIST -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END MAIN CONTENT -->
+</div>
+<!-- END MAIN -->
+{% endblock %}
