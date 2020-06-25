@@ -35,10 +35,10 @@
         {% endblock %}
     </head>
     <body data-spy="scroll" data-target="#bs-example-navbar-collapse-1" data-offset="90">
-        {% include '_front-layout/_header.html.twig' %}
-        {% include '_front-layout/_top-banner.html.twig' %}
+        {% include '/frontend/_front-layout/_header.html.twig' %}
+        {% include '/frontend/_front-layout/_top-banner.html.twig' %}
         {% block body %}{% endblock %}
-        {% include '_chat-box/_chat-box.html.twig' %}
+        {% include '/_chat-box/_chat-box.html.twig' %}
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
             <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -74,7 +74,66 @@
             <script src="{{ asset('assets/js/gmaps.min.js') }}"></script>
 
             <script src="{{ asset('assets/js/theme.js') }}"></script>
+            <script>
+                $(document).ready(function test() {
+                    setInterval(function test() {
+                        let ajaxResult = $(".msg_container_base");
+                        let myInit = {
+                            method: 'GET',
+                            mode: 'same-origin',
+                            cache: 'default'
+                        };
+                        fetch('messaging', myInit).then(response => response.json())
+                            .then(json => {
+                                $(".messagesAjax").remove();
+                                let myHtml = '';
+                                for (let i = 0; i < json.length; i++) {
+                                    const obj = json[i];
+                                    var timestamp= obj.date.timestamp;
+                                    var date=new Date(timestamp);
+                                    var day = date.getDay();
+                                    var month = date.getMonth();
+                                    var hours = date.getHours(); // minutes part from the timestamp
+                                    var minutes = date.getMinutes(); // seconds part from the timestamp
+                                    var seconds = date.getSeconds(); // will display time in 10:30:23 format
+                                    var formattedTime = 'le ' + day + '/' + month + ' | A ' + hours + 'h' + minutes + 'min et ' + seconds +'s';
+                                    console.log(obj);
+                                    if (obj.author === "patient") {
+                                        myHtml += "<div class='row msg_container base_receive messagesAjax'>\n" +
+                                            "                        <div class=\"col-md-2 col-xs-2 avatar\">\n" +
+                                            "                            <img src=\"http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg\" class=\" img-responsive \">\n" +
+                                            "                        </div>\n" +
+                                            "                        <div class=\"col-md-10 col-xs-10\">\n" +
+                                            "                            <div class=\"messages msg_receive\">\n" +
+                                            "                                <p>"+ obj.content +"</p>\n" +
+                                            "                                <time datetime=\"2009-11-13T20:00\"> You • " + formattedTime +"</time>\n" +
+                                            "                            </div>\n" +
+                                            "                        </div>\n" +
+                                            "       </div>";
+                                    } else {
+                                        myHtml += "<div class='row msg_container base_sent messagesAjax'>\n" +
+                                            "                        <div class=\"col-md-10 col-xs-10 \">\n" +
+                                            "                            <div class=\"messages msg_sent\">\n" +
+                                            "                                <p>"+ obj.content +"</p>\n" +
+                                            "                                <time datetime=\"2009-11-13T20:00\">" + obj.doctor.name +' '+ formattedTime +"</time>\n" +
+                                            "                            </div>\n" +
+                                            "                        </div>\n" +
+                                            "                        <div class=\"col-md-2 col-xs-2 avatar\">\n" +
+                                            "                            <img src=\"http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg\" class=\" img-responsive \">\n" +
+                                            "                        </div>\n" +
+                                            "                    </div>"
+
+                                    }
+                                }
+                                ajaxResult.append(myHtml);
+
+                            })
+                            .catch(() => alert('error'));
+                    }, 15000)
+                })
+            </script>
+
         {% endblock %}
-        {% include '_front-layout/_footer.html.twig' %}
+        {% include '/frontend/_front-layout/_footer.html.twig' %}
     </body>
 </html>

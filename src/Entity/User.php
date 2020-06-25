@@ -58,13 +58,14 @@ class User implements UserInterface
      */
     private $doctor;
 
+
     public function __construct()
     {
         $this->disease = new ArrayCollection();
         $this->report = new ArrayCollection();
         $this->drugs = new ArrayCollection();
+        $this->messages = new ArrayCollection();
         $this->reports = new ArrayCollection();
-
     }
 
     public function getId(): ?int
@@ -259,6 +260,24 @@ class User implements UserInterface
     }
 
     /**
+     * @return Collection|Messaging[]
+     */
+    public function getMessages(): Collection
+    {
+        return $this->messages;
+    }
+
+    public function addMessage(Messaging $message): self
+    {
+        if (!$this->messages->contains($message)) {
+            $this->messages[] = $message;
+            $message->setPatient($this);
+        }
+
+        return $this;
+    }
+
+    /*
      * @return Collection|Report[]
      */
     public function getReports(): Collection
@@ -276,6 +295,18 @@ class User implements UserInterface
         return $this;
     }
 
+    public function removeMessage(Messaging $message): self
+    {
+        if ($this->messages->contains($message)) {
+            $this->messages->removeElement($message);
+            // set the owning side to null (unless already changed)
+            if ($message->getPatient() === $this) {
+                $message->setPatient(null);
+            }
+        }
+        return $this;
+    }
+
     public function removeReport(Report $report): self
     {
         if ($this->reports->contains($report)) {
@@ -285,7 +316,6 @@ class User implements UserInterface
                 $report->setUser(null);
             }
         }
-
         return $this;
     }
 
