@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Doctor;
 use App\Entity\User;
 use App\Form\AddPatientType;
+use App\Repository\PatientRepository;
 use App\Repository\UserRepository;
 use App\Service\SearchBar;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -29,7 +30,7 @@ class DoctorController extends AbstractController
     /**
      * @Route("/add-patient", name="add_patient")
      */
-    public function addPatient(Request $request, UserRepository $userRepository)
+    public function addPatient(Request $request, PatientRepository $patientRepository)
     {
 
         return $this->render('admin/doctor/addPatient.html.twig', [
