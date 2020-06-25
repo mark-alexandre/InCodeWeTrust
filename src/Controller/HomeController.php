@@ -19,7 +19,7 @@ class HomeController extends AbstractController
      */
     public function index()
     {
-        return $this->render('home/index.html.twig');
+        return $this->render('frontend/index.html.twig');
     }
 
     /**
@@ -39,7 +39,7 @@ class HomeController extends AbstractController
             return $this->redirectToRoute('home_connected');
         }
 
-        return $this->render('home/indexConnected.html.twig', [
+        return $this->render('frontend/indexConnected.html.twig', [
             'form'=>$form->createView(),
         ]);
 
@@ -62,7 +62,7 @@ class HomeController extends AbstractController
         }
 
 
-        return $this->render('report/index.html.twig',
+        return $this->render('frontend/report/index.html.twig',
         [
          'reports' => $pastReport
         ]);

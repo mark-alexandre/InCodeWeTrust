@@ -21,7 +21,7 @@ class DoctorController extends AbstractController
      */
     public function index(UserRepository $users)
     {
-        return $this->render('doctor/index.html.twig', [
+        return $this->render('admin/doctor/index.html.twig', [
             'myPatients' => $users->findBy(['doctor'=>$this->getUser()->getId()])
         ]);
     }
@@ -32,7 +32,7 @@ class DoctorController extends AbstractController
     public function addPatient(Request $request, UserRepository $userRepository)
     {
 
-        return $this->render('doctor/addPatient.html.twig', [
+        return $this->render('admin/doctor/addPatient.html.twig', [
             'allPatients' => $userRepository->findAll(),
         ]);
     }

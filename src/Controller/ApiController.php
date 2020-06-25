@@ -51,7 +51,7 @@ class ApiController extends AbstractController
             }
         }
 
-        return $this->render('api/index.html.twig', [
+        return $this->render('admin/api/index.html.twig', [
             'controller_name' => 'ApiController',
             'form' => $form->createView(),
             'pro' => $prod
