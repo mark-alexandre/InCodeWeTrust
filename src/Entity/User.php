@@ -59,15 +59,6 @@ class User implements UserInterface
     private $doctor;
 
 
-    public function __construct()
-    {
-        $this->disease = new ArrayCollection();
-        $this->report = new ArrayCollection();
-        $this->drugs = new ArrayCollection();
-        $this->messages = new ArrayCollection();
-        $this->reports = new ArrayCollection();
-    }
-
     public function getId(): ?int
     {
         return $this->id;
@@ -158,166 +149,6 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @return Collection|Disease[]
-     */
-    public function getDisease(): Collection
-    {
-        return $this->disease;
-    }
-
-    public function addDisease(Disease $disease): self
-    {
-        if (!$this->disease->contains($disease)) {
-            $this->disease[] = $disease;
-        }
-
-        return $this;
-    }
-
-    public function removeDisease(Disease $disease): self
-    {
-        if ($this->disease->contains($disease)) {
-            $this->disease->removeElement($disease);
-        }
-
-        return $this;
-    }
-
-
-    /**
-     * @return Collection|Drugs[]
-     */
-    public function getDrugs(): Collection
-    {
-        return $this->drugs;
-    }
-
-    public function addDrug(Drugs $drug): self
-    {
-        if (!$this->drugs->contains($drug)) {
-            $this->drugs[] = $drug;
-        }
-
-        return $this;
-    }
-
-    public function removeDrug(Drugs $drug): self
-    {
-        if ($this->drugs->contains($drug)) {
-            $this->drugs->removeElement($drug);
-        }
-
-        return $this;
-    }
-
-    public function getSocialNumber(): ?int
-    {
-        return $this->socialNumber;
-    }
-
-    public function setSocialNumber(?int $socialNumber): self
-    {
-        $this->socialNumber = $socialNumber;
-
-        return $this;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(?string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    public function getAddress(): ?string
-    {
-        return $this->address;
-    }
-
-    public function setAddress(?string $address): self
-    {
-        $this->address = $address;
-
-        return $this;
-    }
-
-    public function getCity(): ?string
-    {
-        return $this->city;
-    }
-
-    public function setCity(?string $city): self
-    {
-        $this->city = $city;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Messaging[]
-     */
-    public function getMessages(): Collection
-    {
-        return $this->messages;
-    }
-
-    public function addMessage(Messaging $message): self
-    {
-        if (!$this->messages->contains($message)) {
-            $this->messages[] = $message;
-            $message->setPatient($this);
-        }
-
-        return $this;
-    }
-
-    /*
-     * @return Collection|Report[]
-     */
-    public function getReports(): Collection
-    {
-        return $this->reports;
-    }
-
-    public function addReport(Report $report): self
-    {
-        if (!$this->reports->contains($report)) {
-            $this->reports[] = $report;
-            $report->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeMessage(Messaging $message): self
-    {
-        if ($this->messages->contains($message)) {
-            $this->messages->removeElement($message);
-            // set the owning side to null (unless already changed)
-            if ($message->getPatient() === $this) {
-                $message->setPatient(null);
-            }
-        }
-        return $this;
-    }
-
-    public function removeReport(Report $report): self
-    {
-        if ($this->reports->contains($report)) {
-            $this->reports->removeElement($report);
-            // set the owning side to null (unless already changed)
-            if ($report->getUser() === $this) {
-                $report->setUser(null);
-            }
-        }
-        return $this;
-    }
 
     public function getRoleList(): ?string
     {
@@ -363,6 +194,7 @@ class User implements UserInterface
         if ($doctor->getUser() !== $newUser) {
             $doctor->setUser($newUser);
         }
+
 
         return $this;
     }
