@@ -38,7 +38,9 @@
         {% include '/frontend/_front-layout/_header.html.twig' %}
         {% include '/frontend/_front-layout/_top-banner.html.twig' %}
         {% block body %}{% endblock %}
+        {% if app.user is not null %}
         {% include '/_chat-box/_chat-box.html.twig' %}
+        {% endif %}
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
             <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -74,6 +76,7 @@
             <script src="{{ asset('assets/js/gmaps.min.js') }}"></script>
 
             <script src="{{ asset('assets/js/theme.js') }}"></script>
+            {% if app.user is not null %}
             <script>
                 $(document).ready(function test() {
                     setInterval(function test() {
@@ -83,7 +86,7 @@
                             mode: 'same-origin',
                             cache: 'default'
                         };
-                        fetch('messaging', myInit).then(response => response.json())
+                        fetch('messaging/', myInit).then(response => response.json())
                             .then(json => {
                                 $(".messagesAjax").remove();
                                 let myHtml = '';
@@ -126,12 +129,12 @@
                                     }
                                 }
                                 ajaxResult.append(myHtml);
-
                             })
-                            .catch(() => alert('error'));
+                            .catch(() => console.log('error'));
                     }, 15000)
                 })
             </script>
+            {% endif %}
 
         {% endblock %}
         {% include '/frontend/_front-layout/_footer.html.twig' %}

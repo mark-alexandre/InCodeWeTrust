@@ -32,7 +32,7 @@ class MessagingController extends AbstractController
         $encoders = [new JsonEncoder()]; // If no need for XmlEncoder
         $normalizers = [new ObjectNormalizer()];
         $serializer = new Serializer($normalizers, $encoders);
-            $patient = 1;
+            $patient = 4;
 
         $messagings = $messagingRepository->findBy(array("patient" => $patient), null, 10);
         $jsonMessages = $serializer->serialize($messagings, 'json', [
