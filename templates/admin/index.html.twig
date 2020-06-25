@@ -25,48 +25,28 @@
                                 <thead>
                                 <tr>
                                     <th>Event Id</th>
-                                    <th>Full Name</th>
-                                    <th>Description</th>
+                                    <th>Patient</th>
+                                    <th>Résultat</th>
                                     <th>Date &amp; Time</th>
                                     <th>Type</th>
                                 </tr>
                                 </thead>
                                 <tbody>
+                                {% for notification in notifs %}
                                 <tr>
-                                    <td><a href="#">763648</a></td>
-                                    <td>Steve JOBS</td>
-                                    <td>Daily entry</td>
-                                    <td>Jun 21, 2020</td>
-                                    <td><span class="label label-success">SUCCESS</span></td>
+                                    <td><a href="">Show report?</a></td>
+                                    <td>{{ notification.patient.name }}</td>
+                                    <td>{{ notification.report.result }}</td>
+                                    <td>{{ notification.date|date('d-m-y') }}</td>
+                                    <td><span class="label label-{{ notification.type }}">
+                                            {% if notification.type is same as ('danger') %}
+                                                URGENCE
+                                            {% else %}
+                                                A SURVEILLER
+                                            {% endif %}
+                                        </span></td>
                                 </tr>
-                                <tr>
-                                    <td><a href="#">763649</a></td>
-                                    <td>Amber KITIRA</td>
-                                    <td>Daily entry</td>
-                                    <td>Jun 21, 2020</td>
-                                    <td><span class="label label-success">SUCCESS</span></td>
-                                </tr>
-                                <tr>
-                                    <td><a href="#">763650</a></td>
-                                    <td>Michael JACKSON</td>
-                                    <td>Daily entry</td>
-                                    <td>Jun 18, 2020</td>
-                                    <td><span class="label label-warning">NOT DONE</span></td>
-                                </tr>
-                                <tr>
-                                    <td><a href="#">763651</a></td>
-                                    <td>Roger RABBIT</td>
-                                    <td>Direct message</td>
-                                    <td>Jun 17, 2020</td>
-                                    <td><span class="label label-danger">ASSISTANCE</span></td>
-                                </tr>
-                                <tr>
-                                    <td><a href="#">763652</a></td>
-                                    <td>Smith WILL</td>
-                                    <td>Daily entry</td>
-                                    <td>Jun 16, 2020</td>
-                                    <td><span class="label label-success">SUCCESS</span></td>
-                                </tr>
+                                {% endfor %}
                                 </tbody>
                             </table>
                         </div>
@@ -95,19 +75,6 @@
                         </div>
                         <div class="panel-body">
                             <ul class="list-unstyled todo-list">
-                                <li>
-                                    <label class="control-inline fancy-checkbox">
-                                        <input type="checkbox"><span></span>
-                                    </label>
-                                    <p>
-                                        <span class="title">Call Mickael JACKSON</span>
-                                        <span class="short-description">He's as white as sugar...</span>
-                                        <span class="date">Jun 9, 2020</span>
-                                    </p>
-                                    <div class="controls">
-                                        <a href="#"><i class="icon-software icon-software-pencil"></i></a> <a href="#"><i class="icon-arrows icon-arrows-circle-remove"></i></a>
-                                    </div>
-                                </li>
                                 <li>
                                     <label class="control-inline fancy-checkbox">
                                         <input type="checkbox"><span></span>

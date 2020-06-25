@@ -4,6 +4,9 @@ namespace App\Repository;
 
 use App\Entity\Notifications;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -47,4 +50,17 @@ class NotificationsRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function countNotifs($doctor)
+    {
+            return $this->createQueryBuilder('n')
+                ->select("count(n.id)")
+                ->where("n.type = 'danger'")
+                ->orWhere("n.type = 'warning'")
+                ->andWhere("n.doctor = $doctor")
+                ->getQuery()
+                ->getSingleScalarResult();
+
+
+    }
 }

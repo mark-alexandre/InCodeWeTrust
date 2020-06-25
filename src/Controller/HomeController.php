@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Messaging;
+use App\Entity\Notifications;
 use App\Form\MessagingType;
 use App\Repository\DoctorRepository;
 use App\Repository\MessagingRepository;
@@ -50,10 +51,31 @@ class HomeController extends AbstractController
         $patient = $this->getUser();
         $form = $this->createForm(ReportType::class, $report);
         $form->handleRequest($request);
+        $today = new DateTime('now');
+
         if($form->isSubmitted() && $form->isValid()) {
 
             $report->setUser($patient);
             $entityManager->persist($report);
+
+            $notif = new Notifications();
+            $notif->setReport($report);
+            $notif->setDate($today);
+            $patientN = $patient->getPatient();
+            $notif->setPatient($patientN);
+            $doctor = $doctorRepository->findOneBy(array('id'=>'1'));
+            $notif->setDoctor($doctor);
+            if($report->getResult() < 135 ) {
+                $notif->setType("success");
+            } else if ($report->getResult() > 180 ) {
+                $notif->setType("danger");
+                $notif->setState("waiting");
+            } else {
+                $notif->setType("warning");
+                $notif->setState("waiting");
+            }
+            $entityManager->persist($notif);
+
             $entityManager->flush();
             return $this->redirectToRoute('home_connected');
         }
@@ -61,7 +83,6 @@ class HomeController extends AbstractController
         $reportQuodidien = $reportRepository->findOneBy(array('user' => $patient), array('id' => "DESC"));
         if ($reportQuodidien != null) {
             $dateReport = $reportQuodidien->getDate()->format('YY "/" mm "/" dd');
-            $today = new DateTime('now');
 
             if( $dateReport != $today->format('YY "/" mm "/" dd') ) {
                 $this->addFlash('danger', 'Pensez à remplir votre rapport Quotidien!');
@@ -99,10 +120,7 @@ class HomeController extends AbstractController
             'messaging' => $messaging,
             'form' => $form->createView(),
             'formChat' => $formChat->createView(),
-            'messagings' =>         $messagings = $messagingRepository->findBy(array("patient" => 1), null, 10),
-//            'dateReport' => $dateReport,
-//            'today' => $today
-
+            'messagings' =>         $messagings = $messagingRepository->findBy(array("patient" => 1), null, 10)
         ]);
 
     }
