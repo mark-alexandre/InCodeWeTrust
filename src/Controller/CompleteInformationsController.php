@@ -35,6 +35,7 @@ class CompleteInformationsController extends AbstractController
 
             return $this->redirectToRoute('home_connected');
         }
+
         return $this->render('complete_informations/edit.html.twig', [
         'user' => $user,
         'formComplete' => $form->createView(),

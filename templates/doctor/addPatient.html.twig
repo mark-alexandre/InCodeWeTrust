@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello DoctorController!{% endblock %}
+
+{% block body %}
+
+    <h1>Reports</h1>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Address</th>
+            <th scope="col">Security Social Number</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for patient in allPatients %}
+                <tr>
+                    <th scope="row">{{ patient.id }}</th>
+                    <td>{{ patient.name }}</td>
+                    <td>{{ patient.address }}</td>
+                    <td>{{ patient.socialNumber }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
