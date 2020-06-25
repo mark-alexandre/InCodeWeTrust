@@ -39,9 +39,15 @@ class Doctor
      */
     private $users;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Messaging::class, mappedBy="doctor")
+     */
+    private $messagesFromPatients;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
+        $this->messagesFromPatients = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -110,6 +116,37 @@ class Doctor
             // set the owning side to null (unless already changed)
             if ($user->getDoctor() === $this) {
                 $user->setDoctor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Messaging[]
+     */
+    public function getMessagesFromPatients(): Collection
+    {
+        return $this->messagesFromPatients;
+    }
+
+    public function addMessagesFromPatient(Messaging $messagesFromPatient): self
+    {
+        if (!$this->messagesFromPatients->contains($messagesFromPatient)) {
+            $this->messagesFromPatients[] = $messagesFromPatient;
+            $messagesFromPatient->setDoctor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessagesFromPatient(Messaging $messagesFromPatient): self
+    {
+        if ($this->messagesFromPatients->contains($messagesFromPatient)) {
+            $this->messagesFromPatients->removeElement($messagesFromPatient);
+            // set the owning side to null (unless already changed)
+            if ($messagesFromPatient->getDoctor() === $this) {
+                $messagesFromPatient->setDoctor(null);
             }
         }
 
