@@ -55,6 +55,7 @@ class HomeController extends AbstractController
             $entityManager->persist($report);
             $entityManager->flush();
             return $this->redirectToRoute('home_connected');
+
         }
 
         $messaging = new Messaging();
@@ -111,5 +112,4 @@ class HomeController extends AbstractController
          'reports' => $pastReport
         ]);
     }
-
 }
