@@ -1,0 +1,33 @@
+{% extends 'frontend/base.html.twig' %}
+
+{% block title %}Past Report{% endblock %}
+
+{% block body %}
+
+    <h1>Reports</h1>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Date</th>
+            <th scope="col">Result</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% if reports == "There is no past report" %}
+            <td colspan="3">{{ reports }}</td>
+        {% else %}
+            {% for report in reports %}
+                <tr>
+                    <th scope="row">{{ report.id }}</th>
+                    <td>{{ report.date|date('Y/m/d H:g') }}</td>
+                    <td>{{ report.result }}</td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('home_connected')}}"><button>Add a new report?</button></a>
+
+{% endblock %}

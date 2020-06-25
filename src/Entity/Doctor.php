@@ -20,24 +20,34 @@ class Doctor
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $address;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $city;
 
     /**
-     * @ORM\OneToMany(targetEntity=User::class, mappedBy="doctor")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $users;
+    private $numberLicense;
+
+    /**
+     * @ORM\OneToOne(targetEntity=User::class, inversedBy="doctor", cascade={"persist", "remove"})
+     */
+    private $user;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Messaging::class, mappedBy="doctor")
+     */
+    private $messagesFromPatients;
 
     /**
      * @ORM\OneToMany(targetEntity=Notifications::class, mappedBy="doctor")
@@ -48,6 +58,7 @@ class Doctor
     {
         $this->users = new ArrayCollection();
         $this->notifications = new ArrayCollection();
+        $this->messagesFromPatients = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -91,31 +102,55 @@ class Doctor
         return $this;
     }
 
-    /**
-     * @return Collection|User[]
-     */
-    public function getUsers(): Collection
+    public function getNumberLicense(): ?string
     {
-        return $this->users;
+        return $this->numberLicense;
     }
 
-    public function addUser(User $user): self
+    public function setNumberLicense(?string $numberLicense): self
     {
-        if (!$this->users->contains($user)) {
-            $this->users[] = $user;
-            $user->setDoctor($this);
+        $this->numberLicense = $numberLicense;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Messaging[]
+     */
+    public function getMessagesFromPatients(): Collection
+    {
+        return $this->messagesFromPatients;
+    }
+
+    public function addMessagesFromPatient(Messaging $messagesFromPatient): self
+    {
+        if (!$this->messagesFromPatients->contains($messagesFromPatient)) {
+            $this->messagesFromPatients[] = $messagesFromPatient;
+            $messagesFromPatient->setDoctor($this);
         }
 
         return $this;
     }
 
-    public function removeUser(User $user): self
+    public function removeMessagesFromPatient(Messaging $messagesFromPatient): self
     {
-        if ($this->users->contains($user)) {
-            $this->users->removeElement($user);
+        if ($this->messagesFromPatients->contains($messagesFromPatient)) {
+            $this->messagesFromPatients->removeElement($messagesFromPatient);
             // set the owning side to null (unless already changed)
-            if ($user->getDoctor() === $this) {
-                $user->setDoctor(null);
+            if ($messagesFromPatient->getDoctor() === $this) {
+                $messagesFromPatient->setDoctor(null);
             }
         }
 

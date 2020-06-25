@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Doctor;
+use App\Entity\Patient;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Security\EmailVerifier;
@@ -28,6 +30,8 @@ class RegistrationController extends AbstractController
      */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
+        $doctor = new Doctor;
+        $patient = new Patient;
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
@@ -40,6 +44,18 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
+            $roles = $form->get('roleList')->getData();
+            $roleAttribute = $user->setRoles(array('roles' => $roles));
+            if($roleAttribute->getRoleList()== "ROLE_DOCTOR") {
+                $user->setDoctor($doctor);
+            }
+            else if ($roleAttribute->getRoleList()=="ROLE_PATIENT") {
+                $user->setPatient($patient);
+            }
+
+
+
+
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
@@ -51,14 +67,13 @@ class RegistrationController extends AbstractController
                     ->from(new Address('p.strentz@outlook.com', '"Paul"'))
                     ->to($user->getEmail())
                     ->subject('Please Confirm your Email')
-                    ->htmlTemplate('registration/confirmation_email.html.twig')
+                    ->htmlTemplate('_mail-template/confirmation_email.html.twig')
             );
             // do anything else you need here, like send an email
-
             return $this->redirectToRoute('home');
         }
 
-        return $this->render('registration/register.html.twig', [
+        return $this->render('frontend/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
     }
@@ -82,6 +97,11 @@ class RegistrationController extends AbstractController
         // @TODO Change the redirect on success and handle or remove the flash message in your templates
         $this->addFlash('success', 'Your email address has been verified.');
 
-        return $this->redirectToRoute('complete_index');
+        if ($this->isGranted('ROLE_PATIENT') && !empty($this->getUser()->getPatient())) {
+            return $this->redirectToRoute('complete_form', ['id' => $this->getUser()->getPatient()->getId()]);
+        }
+        else if ($this->isGranted('ROLE_DOCTOR') && !empty($this->getUser()->getDoctor())) {
+            return $this->redirectToRoute('complete_form_doctor', ['id' => $this->getUser()->getDoctor()->getId()]);
+        }
     }
 }

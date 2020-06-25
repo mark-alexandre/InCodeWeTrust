@@ -39,9 +39,15 @@ class Drugs
      */
     private $users;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Patient::class, mappedBy="drugs")
+     */
+    private $patients;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
+        $this->patients = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -108,6 +114,34 @@ class Drugs
         if ($this->users->contains($user)) {
             $this->users->removeElement($user);
             $user->removeDrug($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Patient[]
+     */
+    public function getPatients(): Collection
+    {
+        return $this->patients;
+    }
+
+    public function addPatient(Patient $patient): self
+    {
+        if (!$this->patients->contains($patient)) {
+            $this->patients[] = $patient;
+            $patient->addDrug($this);
+        }
+
+        return $this;
+    }
+
+    public function removePatient(Patient $patient): self
+    {
+        if ($this->patients->contains($patient)) {
+            $this->patients->removeElement($patient);
+            $patient->removeDrug($this);
         }
 
         return $this;

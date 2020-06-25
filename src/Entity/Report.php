@@ -35,6 +35,11 @@ class Report
      */
     private $user;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Patient::class, inversedBy="reports")
+     */
+    private $patient;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
@@ -77,6 +82,18 @@ class Report
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getPatient(): ?Patient
+    {
+        return $this->patient;
+    }
+
+    public function setPatient(?Patient $patient): self
+    {
+        $this->patient = $patient;
 
         return $this;
     }

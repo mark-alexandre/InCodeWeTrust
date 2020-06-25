@@ -44,17 +44,17 @@ class User implements UserInterface
     private $isVerified = false;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Disease::class, inversedBy="users")
+     * @ORM\Column(type="string", length=255)
      */
-    private $disease;
+    private $roleList;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Drugs::class, inversedBy="users")
+     * @ORM\OneToOne(targetEntity=Patient::class, mappedBy="user", cascade={"persist", "remove"})
      */
-    private $drugs;
+    private $patient;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Doctor::class, inversedBy="users")
+     * @ORM\OneToOne(targetEntity=Doctor::class, mappedBy="user", cascade={"persist", "remove"})
      */
     private $doctor;
 
@@ -188,54 +188,32 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @return Collection|Disease[]
-     */
-    public function getDisease(): Collection
+
+    public function getRoleList(): ?string
     {
-        return $this->disease;
+        return $this->roleList;
     }
 
-    public function addDisease(Disease $disease): self
+    public function setRoleList(string $roleList): self
     {
-        if (!$this->disease->contains($disease)) {
-            $this->disease[] = $disease;
-        }
+        $this->roleList = $roleList;
 
         return $this;
     }
 
-    public function removeDisease(Disease $disease): self
+    public function getPatient(): ?Patient
     {
-        if ($this->disease->contains($disease)) {
-            $this->disease->removeElement($disease);
-        }
-
-        return $this;
+        return $this->patient;
     }
 
-
-    /**
-     * @return Collection|Drugs[]
-     */
-    public function getDrugs(): Collection
+    public function setPatient(?Patient $patient): self
     {
-        return $this->drugs;
-    }
+        $this->patient = $patient;
 
-    public function addDrug(Drugs $drug): self
-    {
-        if (!$this->drugs->contains($drug)) {
-            $this->drugs[] = $drug;
-        }
-
-        return $this;
-    }
-
-    public function removeDrug(Drugs $drug): self
-    {
-        if ($this->drugs->contains($drug)) {
-            $this->drugs->removeElement($drug);
+        // set (or unset) the owning side of the relation if necessary
+        $newUser = null === $patient ? null : $this;
+        if ($patient->getUser() !== $newUser) {
+            $patient->setUser($newUser);
         }
 
         return $this;
@@ -250,84 +228,12 @@ class User implements UserInterface
     {
         $this->doctor = $doctor;
 
-        return $this;
-    }
-
-    public function getSocialNumber(): ?int
-    {
-        return $this->socialNumber;
-    }
-
-    public function setSocialNumber(?int $socialNumber): self
-    {
-        $this->socialNumber = $socialNumber;
-
-        return $this;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(?string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    public function getAddress(): ?string
-    {
-        return $this->address;
-    }
-
-    public function setAddress(?string $address): self
-    {
-        $this->address = $address;
-
-        return $this;
-    }
-
-    public function getCity(): ?string
-    {
-        return $this->city;
-    }
-
-    public function setCity(?string $city): self
-    {
-        $this->city = $city;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Report[]
-     */
-    public function getReports(): Collection
-    {
-        return $this->reports;
-    }
-
-    public function addReport(Report $report): self
-    {
-        if (!$this->reports->contains($report)) {
-            $this->reports[] = $report;
-            $report->setUser($this);
+        // set (or unset) the owning side of the relation if necessary
+        $newUser = null === $doctor ? null : $this;
+        if ($doctor->getUser() !== $newUser) {
+            $doctor->setUser($newUser);
         }
 
-        return $this;
-    }
-
-    public function removeReport(Report $report): self
-    {
-        if ($this->reports->contains($report)) {
-            $this->reports->removeElement($report);
-            // set the owning side to null (unless already changed)
-            if ($report->getUser() === $this) {
-                $report->setUser(null);
-            }
-        }
 
         return $this;
     }

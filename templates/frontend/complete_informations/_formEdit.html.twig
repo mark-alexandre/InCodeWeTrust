@@ -1,0 +1,11 @@
+{% if app.user.patient %}
+{{ form_start(formComplete) }}
+{{ form_widget(formComplete) }}
+<button class="btn btn-validate btn-lg">{{ button_label|default('Submit') }}</button>
+{{ form_end(formComplete) }}
+{%  elseif app.user.doctor %}
+{{ form_start(formCompleteDoctor) }}
+{{ form_widget(formCompleteDoctor) }}
+<button class="btn btn-validate btn-lg">{{ button_label|default('Submit') }}</button>
+{{ form_end(formCompleteDoctor) }}
+{% endif %}
