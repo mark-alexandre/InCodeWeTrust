@@ -41,7 +41,7 @@ class Notifications
 
     /**
      * @ORM\OneToOne(targetEntity=Report::class, cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $report;
 
