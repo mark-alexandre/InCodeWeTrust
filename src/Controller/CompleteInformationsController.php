@@ -74,7 +74,6 @@ class CompleteInformationsController extends AbstractController
                 'formCompleteDoctor' => $form->createView(),
             ]);
         } else {
-            dd($this->getUser());
             return $this->redirectToRoute('admin_home');
         }
 
