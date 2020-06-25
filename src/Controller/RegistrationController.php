@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Doctor;
 use App\Entity\Patient;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
@@ -29,6 +30,7 @@ class RegistrationController extends AbstractController
      */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
+        $doctor = new Doctor;
         $patient = new Patient;
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -43,8 +45,14 @@ class RegistrationController extends AbstractController
                 )
             );
             $roles = $form->get('roleList')->getData();
-            $user->setRoles(array('roles' => $roles));
-            $user->setPatient($patient);
+            $roleAttribute = $user->setRoles(array('roles' => $roles));
+            if($roleAttribute->getRoleList()== "ROLE_DOCTOR") {
+                $user->setDoctor($doctor);
+            }
+            else if ($roleAttribute->getRoleList()=="ROLE_PATIENT") {
+                $user->setPatient($patient);
+            }
+
 
 
 

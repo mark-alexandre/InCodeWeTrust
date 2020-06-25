@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Doctor;
 use App\Entity\Patient;
+use App\Form\CompleteInformationDoctorType;
 use App\Form\CompleteInformationType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -68,11 +69,12 @@ class CompleteInformationsController extends AbstractController
                 return $this->redirectToRoute('admin_home');
             }
 
-            return $this->render('complete_informations/edit.html.twig', [
+            return $this->render('frontend/complete_informations/edit.html.twig', [
                 'user' => $doctor,
                 'formCompleteDoctor' => $form->createView(),
             ]);
         } else {
+            dd($this->getUser());
             return $this->redirectToRoute('admin_home');
         }
 
