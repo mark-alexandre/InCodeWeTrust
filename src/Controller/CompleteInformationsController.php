@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class CompleteInformationsController extends AbstractController
 {
     /**
-     * @Route("/profile", name="complete_index")
+     * @Route("/complete-your-account", name="complete_index")
      */
     public function index()
     {
@@ -25,7 +25,7 @@ class CompleteInformationsController extends AbstractController
      * @param Request $request
      * @param Patient $patient
      * @return Response
-     * @Route("/profile/{id}", name="complete_form", methods={"GET", "POST"}, requirements={"id":"\d+"})
+     * @Route("/complete-your-account/{id}", name="complete_form", methods={"GET", "POST"}, requirements={"id":"\d+"})
      */
     public function completeInformations(Request $request, Patient $patient)
     {
@@ -36,7 +36,7 @@ class CompleteInformationsController extends AbstractController
             if ($form->isSubmitted() && $form->isValid()) {
                 $this->getDoctrine()->getManager()->flush();
 
-                return $this->redirectToRoute('profile_new_report', ['id' => $this->getUser()->getId()]);
+                return $this->redirectToRoute('home_connected');
             }
 
 
@@ -45,7 +45,7 @@ class CompleteInformationsController extends AbstractController
                 'formComplete' => $form->createView(),
             ]);
         }else {
-            return $this->redirectToRoute('profile_new_report', ['id' => $this->getUser()->getId()]);
+            return $this->redirectToRoute('home_connected');
         }
 
     }
@@ -54,7 +54,7 @@ class CompleteInformationsController extends AbstractController
      * @param Request $request
      * @param Doctor $doctor
      * @return Response
-     * @Route("/profile/doc/{id}", name="complete_form_doctor", methods={"GET", "POST"})
+     * @Route("/complete-doctor-account/{id}", name="complete_form_doctor", methods={"GET", "POST"})
      */
     public function completeDoctorInformations(Request $request, Doctor $doctor)
     {

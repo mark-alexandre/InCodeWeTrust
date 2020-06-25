@@ -1,33 +1,64 @@
-{% extends 'frontend/base.html.twig' %}
+{% extends 'frontend/baseProfile.html.twig' %}
 
-{% block title %}Past Report{% endblock %}
+{% block title %}Reports{% endblock %}
 
 {% block body %}
+    {% if app.user %}
+        {% set userObj = app.user.doctor ?? app.user.patient %}
+        {% set userType = app.user.doctor ? 'doctor' : 'patient' %}
+    {% else %}
+        {% set userObj = '' %}
+    {% endif %}
+    <div style="max-width: 800px; padding: 20px; margin: 0 auto">
+        <div class="main main-raised">
+            <div class="profile-content" style="padding: 20px; height: calc(100vh - 200px)">
+                <nav class="nav flex-column" style="display: flex; justify-content: center;">
+                    <a class="btn btn-primary" style="width: 140px; font-size: 14px" href="{{ path('complete_index')
+                    }}">About</a>
+                    <a class="btn btn-primary" style="width: 140px; font-size: 14px" href="">Edit my profile</a>
+                    <a class="btn btn-primary" style="width: 140px; font-size: 14px" href="">Daily report</a>
+                    <a class="btn btn-primary" style="width: 140px; font-size: 14px" href="#">See my reports</a>
+                </nav>
+                <div class="row">
+                    <div class="col-md-12 ml-auto mr-auto" style="margin-top: 30px">
+                        <div class="profile">
+                            <div class="avatar">
+                                <img src="https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cg_face%2Cq_auto:good%2Cw_300/MTU0NjQzOTk4OTQ4OTkyMzQy/ansel-elgort-poses-for-a-portrait-during-the-baby-driver-premiere-2017-sxsw-conference-and-festivals-on-march-11-2017-in-austin-texas-photo-by-matt-winkelmeyer_getty-imagesfor-sxsw-square.jpg" alt="Circle Image" class="img-raised rounded-circle img-fluid">
+                            </div>
+                            <div class="name">
+                                <h3 class="title text-center">{{ not userObj is empty ? userObj.name : 'No info' }}</h3>
+                                <h6 class=""></h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="description text-center d-flex flex-column">
+                    <h1>Reports</h1>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Result</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% if reports == "There is no past report" %}
+                            <td colspan="3">{{ reports }}</td>
+                        {% else %}
+                            {% for report in reports %}
+                                <tr>
+                                    <th scope="row">{{ loop.index }}</th>
+                                    <td>{{ report.date|date('d/m/Y H:i') }}</td>
+                                    <td>{{ report.result }}</td>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
+                        </tbody>
+                    </table>
+                </div>
 
-    <h1>Reports</h1>
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Date</th>
-            <th scope="col">Result</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% if reports == "There is no past report" %}
-            <td colspan="3">{{ reports }}</td>
-        {% else %}
-            {% for report in reports %}
-                <tr>
-                    <th scope="row">{{ report.id }}</th>
-                    <td>{{ report.date|date('Y/m/d H:g') }}</td>
-                    <td>{{ report.result }}</td>
-                </tr>
-            {% endfor %}
-        {% endif %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('profile_new_report', { id: app.user.id })}}"><button>Add a new report?</button></a>
-
+            </div>
+        </div>
+    </div>
 {% endblock %}
