@@ -34,6 +34,19 @@
                 <li class="active"><a href="#about">About</a></li>
                 <li><a href="#feature">Features</a></li>
                 <li><a href="#contact">Contact</a></li>
+                {% if not app.user %}
+                    <li><a href="{{ path('app_login') }}">Login</a></li>
+                    <li><a href="{{ path('app_register') }}">Register</a></li>
+                {% else %}
+                    <li>
+                        <a href="
+                        {{ app.user.doctor ? path('complete_form_doctor', { id: app.user.doctor.id })
+                        : path('complete_form', { id: app.user.patient.id }) }}">
+                            My Profile
+                        </a>
+                    </li>
+                    <li><a href="{{ path('app_logout') }}">Logout</a></li>
+                {% endif %}
             </ul>
         </div><!-- /.navbar-collapse -->
     </nav>

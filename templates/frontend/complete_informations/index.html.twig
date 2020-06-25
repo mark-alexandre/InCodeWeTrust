@@ -1,11 +1,43 @@
-{% extends 'frontend/base.html.twig' %}
+{% extends 'frontend/baseProfile.html.twig' %}
 
-{% block title %}Complete Your Account{% endblock %}
+{% block title %}My Profile{% endblock %}
 
 {% block body %}
-    {% if app.user.patient %}
-<a href="{{ path('complete_form', {'id': app.user.patient.id}) }}"><button>Complete your informations</button></a>
-    {% elseif app.user.doctor %}
-<a href="{{ path('complete_form_doctor', {'id': app.user.doctor.id}) }}"><button>Complete your informations</button></a>
+    {% if app.user %}
+        {% set userObj = app.user.doctor ?? app.user.patient %}
+        {% set userType = app.user.doctor ? 'doctor' : 'patient' %}
+    {% else %}
+        {% set userObj = '' %}
     {% endif %}
+    <div style="max-width: 800px; padding: 20px; margin: 0 auto">
+        <div class="main main-raised">
+            <div class="profile-content" style="padding: 20px; height: calc(100vh - 200px)">
+                <nav class="nav flex-column">
+                    <a class="nav-link" href="{{ path('complete_index') }}">About</a>
+                    <a class="nav-link" href="{{ path('complete_index') }}">Edit my profile</a>
+                    <a class="nav-link" href="#">See my reports</a>
+                </nav>
+                <div class="row">
+                    <div class="col-md-12 ml-auto mr-auto">
+                        <div class="profile">
+                            <div class="avatar">
+                                <img src="https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cg_face%2Cq_auto:good%2Cw_300/MTU0NjQzOTk4OTQ4OTkyMzQy/ansel-elgort-poses-for-a-portrait-during-the-baby-driver-premiere-2017-sxsw-conference-and-festivals-on-march-11-2017-in-austin-texas-photo-by-matt-winkelmeyer_getty-imagesfor-sxsw-square.jpg" alt="Circle Image" class="img-raised rounded-circle img-fluid">
+                            </div>
+                            <div class="name">
+                                <h3 class="title text-center">{{ not userObj is empty ? userObj.name : 'No info' }}</h3>
+                                <h6 class=""></h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="description text-center d-flex flex-column">
+                    <div>{{ not userObj is empty ? 'Address : ' ~ userObj.address }}</div>
+                    <div>{{ not userObj is empty ? 'City : ' ~ userObj.city }}</div>
+                    <div>{{ userType == 'doctor' ? 'License number : ' ~ userObj.numberLicense }}</div>
+                    <div>{{ userType == 'patient' ? 'Social number : ' ~ userObj.socialNumber }}</div>
+                </div>
+
+            </div>
+        </div>
+    </div>
 {% endblock %}

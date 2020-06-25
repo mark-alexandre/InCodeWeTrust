@@ -62,7 +62,7 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/connected", name="home_connected")
+     * @Route("/profile/{id}/new-report", name="profile_new_report")
      */
     public function indexConnected(Request $request, EntityManagerInterface $entityManager)
     {
@@ -75,7 +75,7 @@ class HomeController extends AbstractController
             $entityManager->persist($report);
             $entityManager->flush();
 
-            return $this->redirectToRoute('home_connected');
+            return $this->redirectToRoute('profile_new_report', ['id' => $this->getUser()->getId()]);
         }
 
         return $this->render('frontend/indexConnected.html.twig', [

@@ -28,6 +28,6 @@
         </tbody>
     </table>
 
-    <a href="{{ path('home_connected')}}"><button>Add a new report?</button></a>
+    <a href="{{ path('profile_new_report', { id: app.user.id })}}"><button>Add a new report?</button></a>
 
 {% endblock %}
