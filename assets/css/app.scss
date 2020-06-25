@@ -6,8 +6,9 @@ header.dash_tp_menu_area.nine_menu {
   width: 150px;
 }
 
-.banner_nine_area {
-  background: #6591b1 !important;
+body .banner_nine_area {
+  background: rgb(63,94,251);
+  background: radial-gradient(circle, rgb(63, 190, 251) 0%, rgb(37, 37, 37) 100%);
 }
 
 body .banner_nine_area .b_nine_text h3 {
@@ -61,6 +62,11 @@ body .n_product_inner .n_product_item h4 {
 .chatbox-btn img {
   width: 100px;
   height: auto;
+}
+
+body .nine_footer {
+  background: #3f5efb;
+  background: radial-gradient(circle, #3fbefb 0%, #252525 100%);
 }
 
 
