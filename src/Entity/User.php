@@ -83,6 +83,7 @@ class User implements UserInterface
      */
     private $messages;
 
+    /**
      * @ORM\OneToMany(targetEntity=Report::class, mappedBy="user")
      */
     private $reports;
@@ -94,7 +95,6 @@ class User implements UserInterface
         $this->drugs = new ArrayCollection();
         $this->messages = new ArrayCollection();
         $this->reports = new ArrayCollection();
-
     }
 
     public function getId(): ?int
@@ -313,6 +313,12 @@ class User implements UserInterface
         if (!$this->messages->contains($message)) {
             $this->messages[] = $message;
             $message->setPatient($this);
+        }
+
+        return $this;
+    }
+
+    /*
      * @return Collection|Report[]
      */
     public function getReports(): Collection
@@ -337,6 +343,10 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($message->getPatient() === $this) {
                 $message->setPatient(null);
+            }
+        }
+        return $this;
+    }
 
     public function removeReport(Report $report): self
     {
@@ -347,7 +357,6 @@ class User implements UserInterface
                 $report->setUser(null);
             }
         }
-
         return $this;
     }
 }
