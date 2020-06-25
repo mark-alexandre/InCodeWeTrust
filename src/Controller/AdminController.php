@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Repository\DoctorRepository;
+use App\Repository\PatientRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,4 +24,11 @@ class AdminController extends AbstractController
         return $this->render('admin/index.html.twig');
     }
 
+    /**
+     * @Route("/patients/", name="patients")
+     */
+    public function admin_patients(DoctorRepository $doctor):response
+    {
+
+    }
 }
