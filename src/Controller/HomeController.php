@@ -25,46 +25,26 @@ class HomeController extends AbstractController
     /**
      * @Route("/", name="home")
      * @param Request $request
-     * @param MessagingRepository $messagingRepository
-     * @param UserRepository $userRepository
-     * @param DoctorRepository $doctorRepository
      * @return RedirectResponse|Response
      */
-    public function index(Request $request, MessagingRepository $messagingRepository, UserRepository $userRepository, DoctorRepository $doctorRepository)
+    public function index(Request $request)
     {
-        $messaging = new Messaging();
-        $form = $this->createForm(MessagingType::class, $messaging);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $patient = $userRepository->find(1);
-            $doctor = $doctorRepository->find(1);
-            $date = new DateTime('now');
-            $messaging->setAuthor("patient");
-            $messaging->setPatient($patient);
-            $messaging->setDoctor($doctor);
-            $messaging->setDate($date);
-            $entityManager->persist($messaging);
-            $entityManager->flush();
-            unset($form);
-            unset($messaging);
-            $messaging = new Messaging();
-            $form = $this->createForm(MessagingType::class, $messaging);
+        if ($this->getUser()){
+            return $this->redirectToRoute('home_connected');
         }
-
-        return $this->render('frontend/index.html.twig', [
-            'messaging' => $messaging,
-            'form' => $form->createView(),
-            'messagings' => $messagingRepository->findAll()
-        ]);
         return $this->render('frontend/index.html.twig');
     }
 
     /**
      * @Route("/connected", name="home_connected")
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
+     * @param MessagingRepository $messagingRepository
+     * @param UserRepository $userRepository
+     * @param DoctorRepository $doctorRepository
+     * @return RedirectResponse|Response
      */
-    public function indexConnected(Request $request, EntityManagerInterface $entityManager)
+    public function indexConnected(Request $request, EntityManagerInterface $entityManager, MessagingRepository $messagingRepository, UserRepository $userRepository, DoctorRepository $doctorRepository)
     {
         $report = new Report();
         $form = $this->createForm(ReportType::class, $report);
@@ -74,12 +54,38 @@ class HomeController extends AbstractController
             $report->setUser($this->getUser());
             $entityManager->persist($report);
             $entityManager->flush();
-
             return $this->redirectToRoute('home_connected');
         }
 
+        $messaging = new Messaging();
+        $formChat = $this->createForm(MessagingType::class, $messaging);
+        $formChat->handleRequest($request);
+
+        if ($formChat->isSubmitted() && $formChat->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+                $patient = $this->getUser();
+            $patient = $patient->getPatient();
+            $doctor = $patient->getDoctor();
+
+            $date = new DateTime('now');
+            $messaging->setAuthor("patient");
+            $messaging->setPatient($patient);
+            $messaging->setDoctor($doctor);
+            $messaging->setDate($date);
+            $entityManager->persist($messaging);
+            $entityManager->flush();
+            unset($formChat);
+            unset($messaging);
+            $messaging = new Messaging();
+            $formChat = $this->createForm(MessagingType::class, $messaging);
+        }
+
         return $this->render('frontend/indexConnected.html.twig', [
-            'form'=>$form->createView(),
+            'messaging' => $messaging,
+            'form' => $form->createView(),
+            'formChat' => $formChat->createView(),
+            'messagings' =>         $messagings = $messagingRepository->findBy(array("patient" => 1), null, 10)
+
         ]);
 
     }
@@ -99,7 +105,6 @@ class HomeController extends AbstractController
         } else {
             $pastReport = 'There is no past report';
         }
-
 
         return $this->render('frontend/report/index.html.twig',
         [
