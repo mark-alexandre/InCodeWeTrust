@@ -37,24 +37,42 @@ class HomeController extends AbstractController
 
     /**
      * @Route("/connected", name="home_connected")
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
      * @param MessagingRepository $messagingRepository
      * @param UserRepository $userRepository
      * @param DoctorRepository $doctorRepository
      * @return RedirectResponse|Response
      */
-    public function indexConnected(Request $request, EntityManagerInterface $entityManager, MessagingRepository $messagingRepository, UserRepository $userRepository, DoctorRepository $doctorRepository)
+    public function indexConnected(Request $request, EntityManagerInterface $entityManager, ReportRepository $reportRepository, MessagingRepository $messagingRepository, UserRepository $userRepository, DoctorRepository $doctorRepository)
     {
         $report = new Report();
+        $patient = $this->getUser();
         $form = $this->createForm(ReportType::class, $report);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()) {
 
-            $report->setUser($this->getUser());
+            $report->setUser($patient);
             $entityManager->persist($report);
             $entityManager->flush();
             return $this->redirectToRoute('home_connected');
         }
+
+        $reportQuodidien = $reportRepository->findOneBy(array('user' => $patient), array('id' => "DESC"));
+        if ($reportQuodidien != null) {
+            $dateReport = $reportQuodidien->getDate()->format('YY "/" mm "/" dd');
+            $today = new DateTime('now');
+
+            if( $dateReport != $today->format('YY "/" mm "/" dd') ) {
+                $this->addFlash('danger', 'Pensez à remplir votre rapport Quotidien!');
+            } else {
+                $this->addFlash('success', "C'est parfait pour aujourd'hui! Vous avez déjà rempli votre rapport");
+            }
+        } else {
+            $this->addFlash('danger', 'Pensez à remplir votre rapport Quotidien! Il faut commencer maintenant');
+        }
+
+        $patient = $patient->getPatient();
 
         $messaging = new Messaging();
         $formChat = $this->createForm(MessagingType::class, $messaging);
@@ -62,8 +80,6 @@ class HomeController extends AbstractController
 
         if ($formChat->isSubmitted() && $formChat->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
-                $patient = $this->getUser();
-            $patient = $patient->getPatient();
             $doctor = $patient->getDoctor();
 
             $date = new DateTime('now');
@@ -83,7 +99,9 @@ class HomeController extends AbstractController
             'messaging' => $messaging,
             'form' => $form->createView(),
             'formChat' => $formChat->createView(),
-            'messagings' =>         $messagings = $messagingRepository->findBy(array("patient" => 1), null, 10)
+            'messagings' =>         $messagings = $messagingRepository->findBy(array("patient" => 1), null, 10),
+//            'dateReport' => $dateReport,
+//            'today' => $today
 
         ]);
 

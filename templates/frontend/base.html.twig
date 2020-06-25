@@ -38,7 +38,7 @@
         {% include '/frontend/_front-layout/_header.html.twig' %}
         {% include '/frontend/_front-layout/_top-banner.html.twig' %}
         {% block body %}{% endblock %}
-        {% if app.user is not null and app.user.doctor is not null %}
+        {% if app.user is not null and app.user.doctor is not null and is_granted('ROLE_PATIENT') %}
         {% include '/_chat-box/_chat-box.html.twig' %}
         {% endif %}
         {% block javascripts %}

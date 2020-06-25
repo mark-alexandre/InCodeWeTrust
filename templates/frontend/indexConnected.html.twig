@@ -3,5 +3,12 @@
 {% block title %}Complete Your Account{% endblock %}
 
 {% block body %}
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ label }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
     {{ include('frontend/_formReport.html.twig', {'button_label': 'Add'}) }}
 {% endblock %}

@@ -18,12 +18,6 @@ class Notifications
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="notifications")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $patient;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Doctor::class, inversedBy="notifications")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -50,21 +44,15 @@ class Notifications
      */
     private $type;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Patient::class, inversedBy="notifications")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $patient;
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getPatient(): ?User
-    {
-        return $this->patient;
-    }
-
-    public function setPatient(?User $patient): self
-    {
-        $this->patient = $patient;
-
-        return $this;
     }
 
     public function getDoctor(): ?Doctor
@@ -123,6 +111,18 @@ class Notifications
     public function setType(?string $type): self
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getPatient(): ?Patient
+    {
+        return $this->patient;
+    }
+
+    public function setPatient(?Patient $patient): self
+    {
+        $this->patient = $patient;
 
         return $this;
     }
