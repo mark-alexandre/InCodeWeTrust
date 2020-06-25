@@ -24,6 +24,9 @@ class HomeController extends AbstractController
 
     /**
      * @Route("/connected", name="home_connected")
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function indexConnected(Request $request, EntityManagerInterface $entityManager)
     {

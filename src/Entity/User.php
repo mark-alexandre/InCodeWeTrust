@@ -83,12 +83,18 @@ class User implements UserInterface
      */
     private $reports;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Notifications::class, mappedBy="patient")
+     */
+    private $notifications;
+
     public function __construct()
     {
         $this->disease = new ArrayCollection();
         $this->report = new ArrayCollection();
         $this->drugs = new ArrayCollection();
         $this->reports = new ArrayCollection();
+        $this->notifications = new ArrayCollection();
 
     }
 
@@ -320,6 +326,37 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($report->getUser() === $this) {
                 $report->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Notifications[]
+     */
+    public function getNotifications(): Collection
+    {
+        return $this->notifications;
+    }
+
+    public function addNotification(Notifications $notification): self
+    {
+        if (!$this->notifications->contains($notification)) {
+            $this->notifications[] = $notification;
+            $notification->setPatient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNotification(Notifications $notification): self
+    {
+        if ($this->notifications->contains($notification)) {
+            $this->notifications->removeElement($notification);
+            // set the owning side to null (unless already changed)
+            if ($notification->getPatient() === $this) {
+                $notification->setPatient(null);
             }
         }
 

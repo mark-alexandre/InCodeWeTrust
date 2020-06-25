@@ -39,9 +39,15 @@ class Doctor
      */
     private $users;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Notifications::class, mappedBy="doctor")
+     */
+    private $notifications;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
+        $this->notifications = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -110,6 +116,37 @@ class Doctor
             // set the owning side to null (unless already changed)
             if ($user->getDoctor() === $this) {
                 $user->setDoctor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Notifications[]
+     */
+    public function getNotifications(): Collection
+    {
+        return $this->notifications;
+    }
+
+    public function addNotification(Notifications $notification): self
+    {
+        if (!$this->notifications->contains($notification)) {
+            $this->notifications[] = $notification;
+            $notification->setDoctor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNotification(Notifications $notification): self
+    {
+        if ($this->notifications->contains($notification)) {
+            $this->notifications->removeElement($notification);
+            // set the owning side to null (unless already changed)
+            if ($notification->getDoctor() === $this) {
+                $notification->setDoctor(null);
             }
         }
 
