@@ -83,11 +83,17 @@ class User implements UserInterface
      */
     private $city;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Messaging::class, mappedBy="patient")
+     */
+    private $messages;
+
     public function __construct()
     {
         $this->disease = new ArrayCollection();
         $this->report = new ArrayCollection();
         $this->drugs = new ArrayCollection();
+        $this->messages = new ArrayCollection();
 
     }
 
@@ -315,6 +321,37 @@ class User implements UserInterface
     public function setCity(?string $city): self
     {
         $this->city = $city;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Messaging[]
+     */
+    public function getMessages(): Collection
+    {
+        return $this->messages;
+    }
+
+    public function addMessage(Messaging $message): self
+    {
+        if (!$this->messages->contains($message)) {
+            $this->messages[] = $message;
+            $message->setPatient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessage(Messaging $message): self
+    {
+        if ($this->messages->contains($message)) {
+            $this->messages->removeElement($message);
+            // set the owning side to null (unless already changed)
+            if ($message->getPatient() === $this) {
+                $message->setPatient(null);
+            }
+        }
 
         return $this;
     }

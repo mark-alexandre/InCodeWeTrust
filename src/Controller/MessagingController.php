@@ -4,7 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Messaging;
 use App\Form\MessagingType;
+use App\Repository\DoctorRepository;
 use App\Repository\MessagingRepository;
+use App\Repository\UserRepository;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,10 +32,9 @@ class MessagingController extends AbstractController
         $encoders = [new JsonEncoder()]; // If no need for XmlEncoder
         $normalizers = [new ObjectNormalizer()];
         $serializer = new Serializer($normalizers, $encoders);
-            $author = 1;
-            $destin = 3;
+            $patient = 1;
 
-        $messagings = $messagingRepository->findBy(array("author" => $author, "destinator" => $destin));
+        $messagings = $messagingRepository->findBy(array("patient" => $patient), null, 10);
         $jsonMessages = $serializer->serialize($messagings, 'json', [
             'circular_reference_handler' => function ($object) {
                 return $object->getId();
@@ -41,32 +43,38 @@ class MessagingController extends AbstractController
         return new Response($jsonMessages, 200, ['Content-Type' => 'application/json']);
     }
 
-
-
-    /**
-     * @Route("/new", name="messaging_new", methods={"GET","POST"})
-     */
-    public function new(Request $request): Response
-    {
-        $messaging = new Messaging();
-        $form = $this->createForm(MessagingType::class, $messaging);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($messaging);
-            $entityManager->flush();
-            $content = NULL;
-            unset($_POST);
-
-            return $this->redirectToRoute('index');
-        }
-
-        return $this->render('messaging/new.html.twig', [
-            'messaging' => $messaging,
-            'form' => $form->createView(),
-        ]);
-    }
+//
+//    /**
+//     * @Route("/new", name="messaging_new", methods={"GET","POST"})
+//     * @param Request $request
+//     * @param UserRepository $userRepository
+//     * @param DoctorRepository $doctorRepository
+//     * @return Response
+//     */
+//    public function new(Request $request, UserRepository $userRepository, DoctorRepository $doctorRepository): Response
+//    {
+//        $messaging = new Messaging();
+//        $form = $this->createForm(MessagingType::class, $messaging);
+//        $form->handleRequest($request);
+//
+//        if ($form->isSubmitted() && $form->isValid()) {
+//            $entityManager = $this->getDoctrine()->getManager();
+//            $patient = $userRepository->find(1);
+//            $doctor = $doctorRepository->find(1);
+//            $date = new DateTime('now');
+//            $messaging->setAuthor("patient");
+//            $messaging->setPatient($patient);
+//            $messaging->setDoctor($doctor);
+//            $messaging->setDate($date);
+//            $entityManager->persist($messaging);
+//            $entityManager->flush();
+//        }
+//
+//        return $this->render('messaging/new.html.twig', [
+//            'messaging' => $messaging,
+//            'form' => $form->createView(),
+//        ]);
+//    }
 
     /**
      * @Route("/{id}", name="messaging_show", methods={"GET"})

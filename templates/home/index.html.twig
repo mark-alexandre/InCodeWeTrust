@@ -1,15 +1,6 @@
 {% extends 'base.html.twig' %}
 
-<<<<<<< HEAD
-{% block title %}Hello HomeController!{% endblock %}
-{% block stylesheets %}
-    {{ parent() }}
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-
-{% endblock %}
-=======
-{% block title %}Doclib Better Life App{% endblock %}
->>>>>>> 56578ed2cd5b05d496b7007a9cd8cc57542a6c85
+{% block title %}Doctolib Better Life App{% endblock %}
 
 {% block body %}
     <!--================About Area =================-->
@@ -115,32 +106,4 @@
         </div>
     </section>
     <!--================End Product Feature Area =================-->
-{% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-
-    <script>
-        $(document).ready(function test() {
-            setInterval(function test() {
-                let ajaxResult = $("#ajax-results");
-                let myInit = {
-                    method: 'GET',
-                    mode: 'same-origin',
-                    cache: 'default'
-                };
-                fetch('messaging', myInit).then(response => response.json())
-                    .then(json => {
-                        $(".message").remove()
-                        for (let i = 0; i < json.length; i++) {
-                            const obj = json[i];
-                            console.log(obj.content);
-                            ajaxResult.append("<p class='message' >" + obj.content + " </p>");
-                        }
-                    })
-                    .catch(() => alert('error'));
-            }, 5000)
-        })
-    </script>
-
 {% endblock %}

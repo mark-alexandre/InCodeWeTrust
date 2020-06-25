@@ -27,17 +27,24 @@ class Messaging
      */
     private $content;
 
+
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="messagings")
+     * @ORM\ManyToOne(targetEntity=Doctor::class, inversedBy="messagesFromPatients")
      * @ORM\JoinColumn(nullable=false)
+     */
+    private $doctor;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="messages")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $patient;
+
+    /**
+     * @ORM\Column(type="string", length=255)
      */
     private $author;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="destinatorMessages")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $destinator;
 
     public function getId(): ?int
     {
@@ -68,27 +75,40 @@ class Messaging
         return $this;
     }
 
-    public function getAuthor(): ?User
+    public function getDoctor(): ?Doctor
+    {
+        return $this->doctor;
+    }
+
+    public function setDoctor(?Doctor $doctor): self
+    {
+        $this->doctor = $doctor;
+
+        return $this;
+    }
+
+    public function getPatient(): ?User
+    {
+        return $this->patient;
+    }
+
+    public function setPatient(?User $patient): self
+    {
+        $this->patient = $patient;
+
+        return $this;
+    }
+
+    public function getAuthor(): ?string
     {
         return $this->author;
     }
 
-    public function setAuthor(?User $author): self
+    public function setAuthor(string $author): self
     {
         $this->author = $author;
 
         return $this;
     }
 
-    public function getDestinator(): ?User
-    {
-        return $this->destinator;
-    }
-
-    public function setDestinator(?User $destinator): self
-    {
-        $this->destinator = $destinator;
-
-        return $this;
-    }
 }
