@@ -12,12 +12,6 @@ class ApiFormType extends AbstractType
     {
         $builder
             ->add('foodSearch')
-            ->add('operator', ChoiceType::class, [
-                'choices' => [
-                    '<' => true,
-                    '>' => false
-                ]
-            ])
             ->add('number');
     }
 }
