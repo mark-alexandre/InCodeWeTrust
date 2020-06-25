@@ -94,8 +94,7 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('complete_index');
         }
         else if ($this->isGranted('ROLE_DOCTOR')) {
-            return $this->redirectToRoute('complete');
+            return $this->redirectToRoute('complete_index');
         }
-
     }
 }

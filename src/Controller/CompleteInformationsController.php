@@ -28,20 +28,25 @@ class CompleteInformationsController extends AbstractController
      */
     public function completeInformations(Request $request, Patient $patient)
     {
-        $form = $this->createForm(CompleteInformationType::class, $patient);
-        $form->handleRequest($request);
+        if (!$patient->getSocialNumber()){
+            $form = $this->createForm(CompleteInformationType::class, $patient);
+            $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            if ($form->isSubmitted() && $form->isValid()) {
+                $this->getDoctrine()->getManager()->flush();
 
+                return $this->redirectToRoute('home_connected');
+            }
+
+
+            return $this->render('frontend/complete_informations/edit.html.twig', [
+                'user' => $patient,
+                'formComplete' => $form->createView(),
+            ]);
+        }else {
             return $this->redirectToRoute('home_connected');
         }
 
-
-        return $this->render('frontend/complete_informations/edit.html.twig', [
-        'user' => $patient,
-        'formComplete' => $form->createView(),
-    ]);
     }
 
     /**
@@ -52,18 +57,24 @@ class CompleteInformationsController extends AbstractController
      */
     public function completeDoctorInformations(Request $request, Doctor $doctor)
     {
-        $form = $this->createForm(CompleteInformationDoctorType::class, $doctor);
-        $form->handleRequest($request);
+        if (!$doctor->getNumberLicense())
+        {
+            $form = $this->createForm(CompleteInformationDoctorType::class, $doctor);
+            $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            if ($form->isSubmitted() && $form->isValid()) {
+                $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('home_connected');
+                return $this->redirectToRoute('admin_home');
+            }
+
+            return $this->render('complete_informations/edit.html.twig', [
+                'user' => $doctor,
+                'formCompleteDoctor' => $form->createView(),
+            ]);
+        } else {
+            return $this->redirectToRoute('admin_home');
         }
 
-        return $this->render('complete_informations/edit.html.twig', [
-            'user' => $doctor,
-            'formCompleteDoctor' => $form->createView(),
-        ]);
     }
 }
