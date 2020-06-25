@@ -16,7 +16,7 @@ class CompleteInformationsController extends AbstractController
      */
     public function index()
     {
-        return $this->render('complete_informations/index.html.twig');
+        return $this->render('frontend/complete_informations/index.html.twig');
     }
 
     /**
@@ -36,7 +36,7 @@ class CompleteInformationsController extends AbstractController
             return $this->redirectToRoute('home_connected');
         }
 
-        return $this->render('complete_informations/edit.html.twig', [
+        return $this->render('frontend/complete_informations/edit.html.twig', [
         'user' => $user,
         'formComplete' => $form->createView(),
     ]);
