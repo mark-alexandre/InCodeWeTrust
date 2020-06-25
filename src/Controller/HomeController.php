@@ -40,12 +40,18 @@ class HomeController extends AbstractController
      * @Route("/connected", name="home_connected")
      * @param Request $request
      * @param EntityManagerInterface $entityManager
+     * @param ReportRepository $reportRepository
      * @param MessagingRepository $messagingRepository
      * @param UserRepository $userRepository
      * @param DoctorRepository $doctorRepository
      * @return RedirectResponse|Response
      */
-    public function indexConnected(Request $request, EntityManagerInterface $entityManager, ReportRepository $reportRepository, MessagingRepository $messagingRepository, UserRepository $userRepository, DoctorRepository $doctorRepository)
+    public function indexConnected(Request $request,
+                                   EntityManagerInterface $entityManager,
+                                   ReportRepository $reportRepository,
+                                   MessagingRepository $messagingRepository,
+                                   UserRepository $userRepository,
+                                   DoctorRepository $doctorRepository)
     {
         $report = new Report();
         $patient = $this->getUser();

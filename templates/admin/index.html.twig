@@ -29,6 +29,7 @@
                                     <th>Résultat</th>
                                     <th>Date &amp; Time</th>
                                     <th>Type</th>
+                                    <th>Etat</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -45,6 +46,8 @@
                                                 A SURVEILLER
                                             {% endif %}
                                         </span></td>
+                                    <td>{{ notification.state }}</td>
+
                                 </tr>
                                 {% endfor %}
                                 </tbody>

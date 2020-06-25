@@ -25,7 +25,9 @@ class AdminController extends AbstractController
      * @param EntityManagerInterface $em
      * @return Response
      */
-    public function index(NotificationsRepository $notificationsRepository, DoctorRepository $doctorRepository, EntityManagerInterface $em)
+    public function index(NotificationsRepository $notificationsRepository,
+                          DoctorRepository $doctorRepository,
+                          EntityManagerInterface $em)
     {
         $doctor = $this->getUser();
         $notifs = $notificationsRepository->findBy(array('doctor' =>$doctor->getDoctor(), 'state'=>'waiting'), null, 15);
