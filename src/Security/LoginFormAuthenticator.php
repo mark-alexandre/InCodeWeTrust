@@ -3,6 +3,8 @@
 namespace App\Security;
 
 use App\Entity\User;
+use App\Repository\DoctorRepository;
+use App\Service\UserRelationship;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -90,15 +92,24 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
         return $credentials['password'];
     }
 
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $providerKey)
     {
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
         }
 
-        // For example : return new RedirectResponse($this->urlGenerator->generate('some_route'));
-        // throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
-        return new RedirectResponse($this->urlGenerator->generate('home'));
+        // Redirection
+
+        // If is Patient
+        if(!empty($token->getUser()->getPatient())) {
+            return new RedirectResponse($this->urlGenerator->generate('complete_form', ['id' =>
+                $token->getUser()->getPatient()->getId()]));
+        } else { // If is Doctor
+            return new RedirectResponse($this->urlGenerator->generate('complete_form_doctor', ['id' =>
+                $token->getUser()->getDoctor()->getId()]));
+        }
+
+        // If is Doctor
     }
 
     protected function getLoginUrl()

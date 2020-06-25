@@ -70,7 +70,6 @@ class RegistrationController extends AbstractController
                     ->htmlTemplate('_mail-template/confirmation_email.html.twig')
             );
             // do anything else you need here, like send an email
-
             return $this->redirectToRoute('home');
         }
 
@@ -98,11 +97,11 @@ class RegistrationController extends AbstractController
         // @TODO Change the redirect on success and handle or remove the flash message in your templates
         $this->addFlash('success', 'Your email address has been verified.');
 
-        if ($this->isGranted('ROLE_PATIENT')) {
-            return $this->redirectToRoute('complete_index');
+        if ($this->isGranted('ROLE_PATIENT') && !empty($this->getUser()->getPatient())) {
+            return $this->redirectToRoute('complete_form', ['id' => $this->getUser()->getPatient()->getId()]);
         }
-        else if ($this->isGranted('ROLE_DOCTOR')) {
-            return $this->redirectToRoute('complete_index');
+        else if ($this->isGranted('ROLE_DOCTOR') && !empty($this->getUser()->getDoctor())) {
+            return $this->redirectToRoute('complete_form_doctor', ['id' => $this->getUser()->getDoctor()->getId()]);
         }
     }
 }
