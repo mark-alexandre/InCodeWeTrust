@@ -56,10 +56,16 @@ class Doctor
      */
     private $patients;
 
+    /*
+     * @ORM\OneToMany(targetEntity=Notifications::class, mappedBy="doctor")
+     */
+    private $notifications;
+
 
     public function __construct()
     {
         $this->users = new ArrayCollection();
+        $this->notifications = new ArrayCollection();
         $this->messagesFromPatients = new ArrayCollection();
         $this->patients = new ArrayCollection();
     }
@@ -173,16 +179,46 @@ class Doctor
         if (!$this->patients->contains($patient)) {
             $this->patients[] = $patient;
             $patient->addDoctor($this);
+
+    /*
+     * @return Collection|Notifications[]
+     */
+    public function getNotifications(): Collection
+    {
+        return $this->notifications;
+    }
+
+    public function addNotification(Notifications $notification): self
+    {
+        if (!$this->notifications->contains($notification)) {
+            $this->notifications[] = $notification;
+            $notification->setDoctor($this);
         }
 
         return $this;
     }
+
 
     public function removePatient(Patient $patient): self
     {
         if ($this->patients->contains($patient)) {
             $this->patients->removeElement($patient);
             $patient->removeDoctor($this);
+            if ($patient->getDoctor() === $this) {
+                  $patient->setDoctor(null);
+              }
+        }
+        return $this;
+    }
+
+    public function removeNotification(Notifications $notification): self
+    {
+        if ($this->notifications->contains($notification)) {
+            $this->notifications->removeElement($notification);
+            // set the owning side to null (unless already changed)
+            if ($notification->getDoctor() === $this) {
+                $notification->setDoctor(null);
+            }
         }
 
         return $this;
