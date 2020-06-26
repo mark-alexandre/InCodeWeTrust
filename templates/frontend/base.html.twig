@@ -37,13 +37,7 @@
     <body data-spy="scroll" data-target="#bs-example-navbar-collapse-1" data-offset="90">
         {% include '/frontend/_front-layout/_header.html.twig' %}
         {% include '/frontend/_front-layout/_top-banner.html.twig' %}
-        {% for label, messages in app.flashes %}
-            {% for message in messages %}
-                <div class="alert alert-{{ label }}">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endfor %}
+
         {% block body %}{% endblock %}
         {% if is_granted('ROLE_PATIENT') %}
             {% else %}
@@ -133,7 +127,7 @@
                                             "                        <div class=\"col-md-10 col-xs-10 \">\n" +
                                             "                            <div class=\"messages msg_sent\">\n" +
                                             "                                <p>"+ obj.content +"</p>\n" +
-                                            "                                <time datetime=\"2009-11-13T20:00\">" + obj.doctor.name +' '+ formattedTime +"</time>\n" +
+                                            "                                <time datetime=\"2009-11-13T20:00\"> Your doctor • " + formattedTime +"</time>\n" +
                                             "                            </div>\n" +
                                             "                        </div>\n" +
                                             "                        <div class=\"col-md-2 col-xs-2 avatar\">\n" +
