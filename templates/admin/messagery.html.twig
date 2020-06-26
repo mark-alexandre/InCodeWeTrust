@@ -14,7 +14,7 @@
                     <div class="col-md-12">
                         <div class="panel">
                             <div class="panel-heading">
-                                    <h3 class="panel-title">Echanges avec les patients</h3>
+                                    <h3 class="panel-title">Talks with patients</h3>
                                 <div class="right">
                                     <button type="button" class="btn-toggle-collapse"><i class="lnr lnr-chevron-up"></i></button>
                                     <button type="button" class="btn-remove"><i class="lnr lnr-cross"></i></button>
@@ -25,23 +25,24 @@
                                 <table class="table table-striped">
                                     <thead>
                                     <tr>
-                                        <th>Nom du patient</th>
-                                        <th>Maladie</th>
+                                        <th>Patient name</th>
+                                        <th>Disease type</th>
                                         <th>Messages</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
+
                                         {% if doctor.patients is empty %}
-                                            <tr> Absence de patients</tr>
+                                            <tr> No patient</tr>
                                         {% endif %}
                                         {% for patient in doctor.patients %}
-                                            <td>{{ patient.name }}</td>
-                                            <td>Maladie</td>
-                                            <td><a href="{{ path('admin_messages', { 'id' : patient.id }) }}"><span class="label label-success">Voir les messages</span></a></td>
+                                            <tr>
+                                                <td>{{ patient.name }}</td>
+                                                <td>Hypertension</td>
+                                                <td><a href="{{ path('admin_messages', { 'id' : patient.id })
+                                                    }}"><span class="label label-success">Check messages</span></a></td>
+                                            </tr>
                                         {% endfor %}
-
-                                    </tr>
 
                                     </tbody>
                                 </table>
@@ -49,9 +50,6 @@
                             <div class="panel-footer">
                                 <div class="row">
                                     <div class="col-md-6"><span class="panel-note"><i class="fa fa-clock-o"></i> Last 24 hours</span></div>
-                                    <div class="col-md-6 text-right"><a href="#" class="btn btn-primary">
-                                            Revenir à l'accueil</a>
-                                    </div>
                                 </div>
                             </div>
                         </div>

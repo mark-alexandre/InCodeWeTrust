@@ -16,7 +16,7 @@
                         <div class="panel">
                             <div class="panel-heading">
                                 {% if messages is not empty %}
-                                <h3 class="panel-title">Echanges avec {{ messages[0].patient.name }}</h3>
+                                <h3 class="panel-title">Talks with {{ messages[0].patient.name }}</h3>
                                 {% endif %}
                                 <div class="right">
                                     <button type="button" class="btn-toggle-collapse"><i class="lnr lnr-chevron-up"></i></button>
@@ -29,20 +29,25 @@
                                 {% endif %}
                                 {% for message in messages %}
                                     {% if message.author is same as ('patient') %}
-                                        <p>{{ message.patient.name }} dit:</p>
+                                        <p>{{ message.patient.name }} says:</p>
                                     {% else %}
-                                        <p>Votre réponse:</p>
+                                        <p>Your answer:</p>
                                     {% endif %}
-                                    <h4>{{ message.date|date('d-m-y g:ia') }}</h4>
-                                    <p>{{ message.content }}</p>
+                                    <div style="display: flex; flex-direction: row; align-content: center">
+                                        <p class="label label-success"
+                                           style="width:150px; padding-top: 5px">
+                                            {{ message.date|date('d-m-y g:ia') }}</p>
+                                        <p style="margin-left: 10px">{{ message.content }}</p>
+                                    </div>
+
                                 {% endfor %}
-                                {{ include('messaging/_form.html.twig', {'button_label': 'Update'}) }}
+                                {{ include('messaging/_form.html.twig', {'button_label': 'Send'}) }}
                             </div>
                             <div class="panel-footer">
                                 <div class="row">
                                     <div class="col-md-6"><span class="panel-note"><i class="fa fa-clock-o"></i> Last 24 hours</span></div>
                                     <div class="col-md-6 text-right"><a href="#" class="btn btn-primary">
-                                            Voir les rapports journaliers</a>
+                                            Check daily reports</a>
                                     </div>
                                 </div>
                             </div>
