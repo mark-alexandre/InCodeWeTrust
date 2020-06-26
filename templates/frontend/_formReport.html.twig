@@ -1,4 +1,17 @@
-{{ form_start(form) }}
-{{ form_widget(form) }}
-<button class="btn btn-validate btn-lg">{{ button_label|default('Submit') }}</button>
-{{ form_end(form)}}
+{#{{ form_start(form) }}#}
+{#{{ form_widget(form) }}#}
+{#    <button class="btn btn-validate btn-lg">{{ button_label|default('Submit') }}</button>#}
+{#{{ form_end(form)}}#}
+
+<form action="" method="post">
+    <div class="connected">
+        {{ form_row(form.date, {
+            'label': 'Date',
+        }) }}
+        {{ form_row(form.result, {
+            'label': 'Arterial pressure',
+            'id': 'salut'
+        }) }}
+        <button class="btn btn-primary btn-lg">{{ button_label|default('Submit') }}</button>
+    </div>
+</form>
