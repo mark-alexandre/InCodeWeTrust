@@ -94,7 +94,6 @@ class HomeController extends AbstractController
         $reportQuodidien = $reportRepository->findOneBy(array('user' => $patient), array('id' => "DESC"));
         if ($reportQuodidien != null) {
             $dateReport = $reportQuodidien->getDate()->format('YY "/" mm "/" dd');
-
             if( $dateReport != $today->format('YY "/" mm "/" dd') ) {
                 $this->addFlash('danger', 'Pensez à remplir votre rapport Quotidien!');
             } else {
