@@ -10,7 +10,6 @@
         <title>{% block title %}{% endblock %}</title>
         {% block stylesheets %}
             <!-- Icon css link -->
-            {{ encore_entry_link_tags('app') }}
             <!-- Icon css link -->
             <link href="{{ asset('assets/css/font-awesome.min.css') }}" rel="stylesheet">
             <link href="{{ asset('assets/css/icofont.css') }}" rel="stylesheet">
@@ -32,6 +31,8 @@
 
             <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
             <link href="{{ asset('assets/css/responsive.css') }}" rel="stylesheet">
+            {{ encore_entry_link_tags('app') }}
+
         {% endblock %}
     </head>
     <body data-spy="scroll" data-target="#bs-example-navbar-collapse-1" data-offset="90">
@@ -40,10 +41,11 @@
 
         {% block body %}{% endblock %}
         {% if is_granted('ROLE_DOCTOR') %}
-            {% else %}
+            {# for granted #}
+        {% else %}
                 {% if app.user is not null %}
                     {% if app.user.patient.doctor is not null  %}
-                        {% include '/_chat-box/_chat-box.html.twig' %}
+                    {% include '/_chat-box/_chat-box.html.twig' %}
                 {% endif %}
             {% endif %}
         {% endif %}
@@ -142,6 +144,7 @@
                             .catch(() => console.log('error'));
                     }, 15000)
                 })
+
             </script>
                 {% endif %}
             {% endif %}
