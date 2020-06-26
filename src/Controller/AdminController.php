@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use messagingDoctor
+use messagingDoctor;
 use App\Entity\Messaging;
 use App\Entity\Patient;
 use App\Form\MessagingType;
@@ -10,7 +10,6 @@ use App\Repository\DoctorRepository;
 use App\Repository\MessagingRepository;
 
 use App\Form\NotificationsType;
-use App\Repository\DoctorRepository;
 use App\Repository\NotificationsRepository;
 use Doctrine\ORM\EntityManager;
 
