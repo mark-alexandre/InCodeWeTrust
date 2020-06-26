@@ -113,7 +113,7 @@ class HomeController extends AbstractController
             $date = new DateTime('now');
             $messaging->setAuthor("patient");
             $messaging->setPatient($patient);
-            $messaging->setDoctor($doctor);
+            $messaging->setDoctor($doctor[0]);
             $messaging->setDate($date);
             $entityManager->persist($messaging);
             $entityManager->flush();
@@ -137,7 +137,7 @@ class HomeController extends AbstractController
      * @return Response
      * @Route("/past-report", name="past_report")
      */
-    public function showAllReport(ReportRepository $reportRepository):Response
+    public function showAllReport(ReportRepository $reportRepository, Request $request):Response
     {
         $userId = $this->getUser()->getPatient()->getId();
 
@@ -146,6 +146,36 @@ class HomeController extends AbstractController
             $pastReport = $reportRepository->findBy(['patient'=>$userId]);
         } else {
             $pastReport = 'There is no past report';
+        }
+
+        $hasDoctor = $this->getUser()->getPatient()->getDoctor();
+        if ($hasDoctor != null ) {
+            $messaging = new Messaging();
+            $formChat = $this->createForm(MessagingType::class, $messaging);
+            $formChat->handleRequest($request);
+
+            if ($formChat->isSubmitted() && $formChat->isValid()) {
+                $entityManager = $this->getDoctrine()->getManager();
+                $patient = $this->getUser()->getPatient();
+                $doctor = $patient->getDoctor();
+
+                $date = new DateTime('now');
+                $messaging->setAuthor("patient");
+                $messaging->setPatient($patient);
+                $messaging->setDoctor($doctor[0]);
+                $messaging->setDate($date);
+                $entityManager->persist($messaging);
+                $entityManager->flush();
+                unset($formChat);
+                unset($messaging);
+                $messaging = new Messaging();
+                $formChat = $this->createForm(MessagingType::class, $messaging);
+            }
+            return $this->render('frontend/report/index.html.twig',
+                [
+                    'reports' => $pastReport,
+                    'formChat' => $formChat->createView()
+                ]);
         }
 
         return $this->render('frontend/report/index.html.twig',
