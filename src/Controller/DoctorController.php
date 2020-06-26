@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Doctor;
 use App\Entity\Patient;
 use App\Form\AddPatientFormType;
+use App\Repository\NotificationsRepository;
 use App\Repository\PatientRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -22,11 +23,22 @@ class DoctorController extends AbstractController
      * @Route("/{id}", name="index")
      * @param PatientRepository $patients
      * @param Doctor $doctor
+     * @param Request $request
+     * @param EntityManagerInterface $em
+     * @param NotificationsRepository $notificationsRepository
      * @return Response
      */
 
-    public function index(PatientRepository $patients, Doctor $doctor, Request $request, EntityManagerInterface $em)
+    public function index(PatientRepository $patients, Doctor $doctor, Request $request, EntityManagerInterface $em, NotificationsRepository $notificationsRepository)
     {
+        $doctorId = $doctor->getId();
+        $result = $notificationsRepository->countNotifs($doctorId);
+        if ($result == null)
+        {
+            $number = "0";
+        } else {
+            $number = $result;
+        }
         $form = $this->createForm(
             AddPatientFormType::class,$doctor);
         $form->handleRequest($request);
@@ -40,6 +52,7 @@ class DoctorController extends AbstractController
             'myPatients' => $patients->findAll(),
             'doctor' => $doctor,
             'form'=>$form->createView(),
+            'number' => $number
         ]);
     }
 }

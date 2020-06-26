@@ -67,11 +67,18 @@ class AdminController extends AbstractController
      * @param PatientRepository $patientRepository
      * @return Response
      */
-    public function messages(PatientRepository $patientRepository) {
-        $doctor = $this->getUser();
-        $patients = $patientRepository->findAll();
+    public function messages(PatientRepository $patientRepository, NotificationsRepository $notificationsRepository) {
+        $doctor = $this->getUser()->getDoctor();
+        $result = $notificationsRepository->countNotifs($doctor->getId());
+        if ($result == null)
+        {
+            $number = "0";
+        } else {
+            $number = $result;
+        }
 
-        return $this->render('admin/messagery.html.twig', ['patients' => $patients]);
+
+        return $this->render('admin/messagery.html.twig', ['doctor' => $doctor, 'number' => $number]);
     }
 
     /**
@@ -82,10 +89,17 @@ class AdminController extends AbstractController
      * @param DoctorRepository $doctorRepository
      * @return Response
      */
-    public function messagesPatient(Patient $patient, MessagingRepository $messagingRepository, Request $request, DoctorRepository $doctorRepository){
+    public function messagesPatient(Patient $patient, MessagingRepository $messagingRepository, Request $request, DoctorRepository $doctorRepository, NotificationsRepository $notificationsRepository){
         $doctor = $this->getUser();
         $messages = $messagingRepository->findBy(array('patient' => $patient, 'doctor' => $doctor));
 
+        $result = $notificationsRepository->countNotifs($doctor->getId());
+        if ($result == null)
+        {
+            $number = "0";
+        } else {
+            $number = $result;
+        }
         $doctor = $doctorRepository->find($doctor);
         $messaging = new Messaging();
         $form = $this->createForm(MessagingType::class, $messaging);
@@ -107,6 +121,7 @@ class AdminController extends AbstractController
 
         return $this->render('admin/messages.html.twig',
             ['messages' => $messages,
-                'form' => $form->createView()]);
+                'form' => $form->createView(),
+        'number' => $number]);
     }
 }

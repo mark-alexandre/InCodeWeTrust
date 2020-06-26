@@ -3,43 +3,82 @@
 {% block title %}Hello DoctorController!{% endblock %}
 
 {% block body %}
+
+
+    <!-- MAIN -->
+    <div class="main">
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- RECENT USER SUBMISSION -->
+                        <div class="panel">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Mes patients</h3>
+                                <div class="right">
+                                    <button type="button" class="btn-toggle-collapse"><i class="lnr lnr-chevron-up"></i></button>
+                                    <button type="button" class="btn-remove"><i class="lnr lnr-cross"></i></button>
+                                </div>
+                            </div>
+                            <div class="panel-body no-padding">
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Address</th>
+                                        <th scope="col">Security Social Number</th>
+                                        <th scope="col">Show treatment</th>
+                                        <th scope="col">Delete a patient</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    {% for patient in doctor.patients %}
+                                        <tr>
+                                            <th scope="row">{{ patient.id }}</th>
+                                            <td>{{ patient.name }}</td>
+                                            <td>{{ patient.address }}</td>
+                                            <td>{{ patient.socialNumber }}</td>
+                                            {#                        <td><a href="{{ path('drugs_show', {id:patient.id}) }}"><button type="button"> Show treatment </button></a></td>#}
+                                            {#                        <td> <a href="{{ path('doctor_remov_patient', {id:patient.id}) }}"><button type="button"> Remove </button></a> </td>#}
+                                        </tr>
+                                    {% endfor %}
+
+                                    <td colspan="6">
+                                        {{ form_start(form) }}
+                                        {{ form_widget(form) }}
+                                        <button class="btn btn-validate btn-lg">{{ button_label|default('Submit') }}</button>
+                                        {{ form_end(form) }}
+                                    </td>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="panel-footer">
+                                <div class="row">
+                                    <div class="col-md-6"><span class="panel-note"><i class="fa fa-clock-o"></i> Last 24 hours</span></div>
+                                    <div class="col-md-6 text-right"><a href="#" class="btn btn-primary">
+                                            Revenir à l'accueil</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END RECENT USER'S SUBMISSIONS -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    </div>
+    <!-- END MAIN CONTENT -->
+    </div>
+    <!-- END MAIN -->
     <div class="container-fluid">
         <div class="container">
-            <h1>Reports</h1>
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Address</th>
-                    <th scope="col">Security Social Number</th>
-                    <th scope="col">Show treatment</th>
-                    <th scope="col">Delete a patient</th>
-                </tr>
-                </thead>
-                <tbody>
 
-               
-
-{#                {% for patient in myPatients %}#}
-{#                    <tr>#}
-{#                        <th scope="row">{{ patient.id }}</th>#}
-{#                        <td>{{ patient.name }}</td>#}
-{#                        <td>{{ patient.address }}</td>#}
-{#                        <td>{{ patient.socialNumber }}</td>#}
-{#                        <td><a href="{{ path('drugs_show', {id:patient.id}) }}"><button type="button"> Show treatment </button></a></td>#}
-{#                        <td> <a href="{{ path('doctor_remov_patient', {id:patient.id}) }}"><button type="button"> Remove </button></a> </td>#}
-{#                    </tr>#}
-{#                {% endfor %}#}
-<td colspan="6">
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn btn-validate btn-lg">{{ button_label|default('Submit') }}</button>
-    {{ form_end(form) }}
-</td>
-
-                </tbody>
-            </table>
         </div>
     </div>
 

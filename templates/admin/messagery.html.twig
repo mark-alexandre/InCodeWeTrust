@@ -12,7 +12,6 @@
 
                 <div class="row">
                     <div class="col-md-12">
-                        <!-- RECENT USER SUBMISSION -->
                         <div class="panel">
                             <div class="panel-heading">
                                     <h3 class="panel-title">Echanges avec les patients</h3>
@@ -33,10 +32,10 @@
                                     </thead>
                                     <tbody>
                                     <tr>
-                                        {% if patients is empty %}
+                                        {% if doctor.patients is empty %}
                                             <tr> Absence de patients</tr>
                                         {% endif %}
-                                        {% for patient in patients %}
+                                        {% for patient in doctor.patients %}
                                             <td>{{ patient.name }}</td>
                                             <td>Maladie</td>
                                             <td><a href="{{ path('admin_messages', { 'id' : patient.id }) }}"><span class="label label-success">Voir les messages</span></a></td>
@@ -56,7 +55,6 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- END RECENT USER'S SUBMISSIONS -->
                     </div>
                 </div>
 
