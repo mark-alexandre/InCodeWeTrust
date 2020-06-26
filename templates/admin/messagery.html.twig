@@ -36,10 +36,9 @@
                                             <tr> No patient</tr>
                                         {% endif %}
                                         {% for patient in doctor.patients %}
-                                            {{ dump(patient.disease) }}
                                             <tr>
                                                 <td>{{ patient.name }}</td>
-                                                <td>{{ patient.disease }}</td>
+                                                <td>Hypertension</td>
                                                 <td><a href="{{ path('admin_messages', { 'id' : patient.id })
                                                     }}"><span class="label label-success">Check messages</span></a></td>
                                             </tr>
@@ -51,9 +50,6 @@
                             <div class="panel-footer">
                                 <div class="row">
                                     <div class="col-md-6"><span class="panel-note"><i class="fa fa-clock-o"></i> Last 24 hours</span></div>
-                                    <div class="col-md-6 text-right"><a href="#" class="btn btn-primary">
-                                            Back to home</a>
-                                    </div>
                                 </div>
                             </div>
                         </div>
