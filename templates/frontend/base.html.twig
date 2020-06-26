@@ -48,7 +48,7 @@
         {% if is_granted('ROLE_PATIENT') %}
             {% else %}
                 {% if app.user is not null %}
-                    {% app.user.patient.doctor is not null  %}
+                    {% if app.user.patient.doctor is not null  %}
                     {% include '/_chat-box/_chat-box.html.twig' %}
                 {% endif %}
             {% endif %}
