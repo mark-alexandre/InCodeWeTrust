@@ -54,24 +54,25 @@ class HomeController extends AbstractController
                                    DoctorRepository $doctorRepository)
     {
         $report = new Report();
-        $patient = $this->getUser();
+        $patient = $this->getUser()->getPatient();
         $form = $this->createForm(ReportType::class, $report);
         $form->handleRequest($request);
         $today = new DateTime('now');
 
         if($form->isSubmitted() && $form->isValid()) {
 
-            $report->setUser($patient);
+            $user = $this->getUser();
+            $report->setUser($user);
+            $report->setPatient($patient);
             $entityManager->persist($report);
 
-            $hasDoctor = $this->getUser()->getPatient()->getDoctor();
+            $hasDoctor = $patient->getDoctor();
             if ($hasDoctor != null) {
                 $notif = new Notifications();
                 $notif->setReport($report);
                 $notif->setDate($today);
-                $patientN = $patient->getPatient();
-                $notif->setPatient($patientN);
-                $doctor = $patientN->getDoctor();
+                $notif->setPatient($patient);
+                $doctor = $patient->getDoctor();
                 $notif->setDoctor($doctor[0]);
                 if($report->getResult() < 135 ) {
                     $notif->setType("success");
@@ -91,7 +92,8 @@ class HomeController extends AbstractController
 
         }
 
-        $reportQuodidien = $reportRepository->findOneBy(array('user' => $patient), array('id' => "DESC"));
+        $user = $this->getUser();
+        $reportQuodidien = $reportRepository->findOneBy(array('user' => $user), array('id' => "DESC"));
         if ($reportQuodidien != null) {
             $dateReport = $reportQuodidien->getDate()->format('YY "/" mm "/" dd');
             if( $dateReport != $today->format('YY "/" mm "/" dd') ) {
@@ -102,8 +104,6 @@ class HomeController extends AbstractController
         } else {
                 $this->addFlash('danger', 'Pensez à remplir votre rapport Quotidien! Il faut commencer maintenant');
         }
-
-        $patient = $patient->getPatient();
 
         $messaging = new Messaging();
         $formChat = $this->createForm(MessagingType::class, $messaging);
@@ -143,9 +143,9 @@ class HomeController extends AbstractController
      */
     public function showAllReport(ReportRepository $reportRepository, Request $request):Response
     {
-        $userId = $this->getUser()->getPatient()->getId();
+        $userId = $this->getUser()->getPatient();
 
-        if($reportRepository->findBy(['user'=>$userId]))
+        if($reportRepository->findBy(['patient'=>$userId]))
         {
             $pastReport = $reportRepository->findBy(['patient'=>$userId]);
         } else {

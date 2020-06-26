@@ -29,10 +29,6 @@ class Disease
      */
     private $duration;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=User::class, mappedBy="disease")
-     */
-    private $users;
 
     /**
      * @ORM\ManyToMany(targetEntity=Advice::class)
