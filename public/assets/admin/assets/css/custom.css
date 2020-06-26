@@ -6,3 +6,8 @@ img.img-responsive.logo {
 .navbar-default .brand {
     padding: 10px 39px;
 }
+
+#messaging_content {
+    width:100%;
+    height: 100px;
+}
