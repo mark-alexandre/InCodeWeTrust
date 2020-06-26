@@ -128,6 +128,7 @@ class HomeController extends AbstractController
             'form' => $form->createView(),
             'formChat' => $formChat->createView(),
             'messagings' => $messagings = $messagingRepository->findBy(array("patient" => 1), null, 10)
+
         ]);
 
     }

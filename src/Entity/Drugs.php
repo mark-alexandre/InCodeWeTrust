@@ -35,20 +35,9 @@ class Drugs
     private $frequency;
 
     /**
-     * @ORM\ManyToMany(targetEntity=User::class, mappedBy="drugs")
+     * @ORM\ManyToOne(targetEntity=Patient::class, inversedBy="drugs")
      */
-    private $users;
-
-    /**
-     * @ORM\ManyToMany(targetEntity=Patient::class, mappedBy="drugs")
-     */
-    private $patients;
-
-    public function __construct()
-    {
-        $this->users = new ArrayCollection();
-        $this->patients = new ArrayCollection();
-    }
+    private $patient;
 
     public function getId(): ?int
     {
@@ -91,58 +80,14 @@ class Drugs
         return $this;
     }
 
-    /**
-     * @return Collection|User[]
-     */
-    public function getUsers(): Collection
+    public function getPatient(): ?Patient
     {
-        return $this->users;
+        return $this->patient;
     }
 
-    public function addUser(User $user): self
+    public function setPatient(?Patient $patient): self
     {
-        if (!$this->users->contains($user)) {
-            $this->users[] = $user;
-            $user->addDrug($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUser(User $user): self
-    {
-        if ($this->users->contains($user)) {
-            $this->users->removeElement($user);
-            $user->removeDrug($this);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Patient[]
-     */
-    public function getPatients(): Collection
-    {
-        return $this->patients;
-    }
-
-    public function addPatient(Patient $patient): self
-    {
-        if (!$this->patients->contains($patient)) {
-            $this->patients[] = $patient;
-            $patient->addDrug($this);
-        }
-
-        return $this;
-    }
-
-    public function removePatient(Patient $patient): self
-    {
-        if ($this->patients->contains($patient)) {
-            $this->patients->removeElement($patient);
-            $patient->removeDrug($this);
-        }
+        $this->patient = $patient;
 
         return $this;
     }

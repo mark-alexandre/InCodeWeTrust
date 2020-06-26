@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/doctor", name="doctor_")
+ * @Route("admin/doctor", name="doctor_")
  */
 class DoctorController extends AbstractController
 {
@@ -24,6 +24,7 @@ class DoctorController extends AbstractController
      * @param Doctor $doctor
      * @return Response
      */
+
     public function index(PatientRepository $patients, Doctor $doctor, Request $request, EntityManagerInterface $em)
     {
         $form = $this->createForm(
@@ -42,3 +43,4 @@ class DoctorController extends AbstractController
         ]);
     }
 }
+

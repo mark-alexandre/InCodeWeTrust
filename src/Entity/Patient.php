@@ -30,7 +30,7 @@ class Patient
     private $disease;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Drugs::class, inversedBy="patients")
+     * @ORM\OneToMany(targetEntity=Drugs::class, mappedBy="patient")
      */
     private $drugs;
 
@@ -263,6 +263,7 @@ class Patient
         return $this;
     }
 
+
     /**
      * @return Collection|Doctor[]
      */
@@ -270,6 +271,7 @@ class Patient
     {
         return $this->doctor;
     }
+
 
     public function addDoctor(Doctor $doctor): self
     {
@@ -318,6 +320,7 @@ class Patient
                 $notification->setPatient(null);
             }
         }
+
         return $this;
     }
 }

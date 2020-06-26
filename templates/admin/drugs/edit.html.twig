@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+
+<title>Edit Drugs</title>
+
+{% block body %}
+    <h1>Edit Drugs</h1>
+
+    {{ include('admin/drugs/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('drugs_index') }}">back to list</a>
+
+    {{ include('admin/drugs/_delete_form.html.twig') }}
+{% endblock %}

@@ -201,11 +201,11 @@ class Doctor
         return $this;
     }
 
-
     public function removePatient(Patient $patient): self
     {
         if ($this->patients->contains($patient)) {
             $this->patients->removeElement($patient);
+
             $patient->removeDoctor($this);
             if ($patient->getDoctor() === $this) {
                   $patient->setDoctor(null);

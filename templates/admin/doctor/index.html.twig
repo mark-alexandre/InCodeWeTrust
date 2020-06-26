@@ -18,6 +18,9 @@
                 </tr>
                 </thead>
                 <tbody>
+
+               
+
 {#                {% for patient in myPatients %}#}
 {#                    <tr>#}
 {#                        <th scope="row">{{ patient.id }}</th>#}
@@ -34,9 +37,11 @@
     <button class="btn btn-validate btn-lg">{{ button_label|default('Submit') }}</button>
     {{ form_end(form) }}
 </td>
+
                 </tbody>
             </table>
         </div>
     </div>
 
 {% endblock %}
+
