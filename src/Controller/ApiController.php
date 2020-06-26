@@ -35,7 +35,7 @@ class ApiController extends AbstractController
         {
 
             $data =$form->getData();
-            $api = new OpenFoodFacts\Api('food', 'fr');
+            $api = new OpenFoodFacts\Api('food', 'en');
 
             $product = $data['foodSearch'];
             $products = $api->search($product,1,50);
