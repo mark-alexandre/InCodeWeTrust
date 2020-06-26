@@ -306,11 +306,10 @@ class Patient
             $this->doctor->removeElement($doctor);
             // set the owning side to null (unless already changed)
               if ($doctor->getPatients() === $this) {
-                  $doctor->setPatient(null);
+                  $doctor->addPatient(null);
               }
         }
         return $this;
-
     }
           
     public function removeNotification(Notifications $notification): self
