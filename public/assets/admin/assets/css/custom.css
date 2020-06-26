@@ -11,3 +11,7 @@ img.img-responsive.logo {
     width:100%;
     height: 100px;
 }
+
+#add_patient_form_patients label {
+    margin-right: 20px;
+}

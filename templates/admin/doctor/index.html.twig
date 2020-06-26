@@ -49,8 +49,11 @@
 
                                     <td colspan="6">
                                         {{ form_start(form) }}
-                                        {{ form_widget(form) }}
-                                        <button class="btn btn-validate btn-lg">{{ button_label|default('Submit') }}</button>
+                                        <div style="margin: 20px 0">
+                                            {{ form_widget(form.patients) }}
+                                        </div>
+                                        <button class="btn btn-primary btn-lg">{{ button_label|default('Submit')
+                                            }}</button>
                                         {{ form_end(form) }}
                                     </td>
                                     </tbody>
@@ -60,7 +63,7 @@
                                 <div class="row">
                                     <div class="col-md-6"><span class="panel-note"><i class="fa fa-clock-o"></i> Last 24 hours</span></div>
                                     <div class="col-md-6 text-right"><a href="#" class="btn btn-primary">
-                                            Revenir à l'accueil</a>
+                                            Back to home</a>
                                     </div>
                                 </div>
                             </div>
@@ -68,7 +71,6 @@
                         <!-- END RECENT USER'S SUBMISSIONS -->
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
