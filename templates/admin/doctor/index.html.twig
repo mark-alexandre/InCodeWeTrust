@@ -31,7 +31,6 @@
                                         <th scope="col">Address</th>
                                         <th scope="col">Security Social Number</th>
                                         <th scope="col">Show treatment</th>
-                                        <th scope="col">Delete a patient</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -42,8 +41,7 @@
                                             <td>{{ patient.name }}</td>
                                             <td>{{ patient.address }}</td>
                                             <td>{{ patient.socialNumber }}</td>
-                                                                    <td><a href="{{ path('drugs_show', {id:patient.id}) }}"><button type="button"> Show treatment </button></a></td>
-                                            {#                        <td> <a href="{{ path('doctor_remov_patient', {id:patient.id}) }}"><button type="button"> Remove </button></a> </td>#}
+                                            <td><a href="{{ path('drugs_show', {id:patient.id}) }}"><button type="button"> Show treatment </button></a></td>
                                         </tr>
                                     {% endfor %}
 

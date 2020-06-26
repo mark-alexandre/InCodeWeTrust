@@ -208,7 +208,7 @@ class Doctor
 
             $patient->removeDoctor($this);
             if ($patient->getDoctor() === $this) {
-                  $patient->setDoctor(null);
+                  $patient->addDoctor(null);
               }
         }
         return $this;
