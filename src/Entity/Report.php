@@ -30,20 +30,16 @@ class Report
     private $result;
 
     /**
+     * @ORM\ManyToOne(targetEntity=Patient::class, inversedBy="reports")
+     */
+    private $patient;
+
+    /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="reports")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Patient::class, inversedBy="reports")
-     */
-    private $patient;
-
-    public function __construct()
-    {
-        $this->users = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -74,17 +70,6 @@ class Report
         return $this;
     }
 
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): self
-    {
-        $this->user = $user;
-
-        return $this;
-    }
 
     public function getPatient(): ?Patient
     {
@@ -94,6 +79,18 @@ class Report
     public function setPatient(?Patient $patient): self
     {
         $this->patient = $patient;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

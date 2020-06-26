@@ -3,13 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Doctor;
-use App\Entity\User;
-use App\Form\AddPatientType;
 use App\Repository\PatientRepository;
-use App\Repository\UserRepository;
-use App\Service\SearchBar;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -18,24 +17,33 @@ use Symfony\Component\Routing\Annotation\Route;
 class DoctorController extends AbstractController
 {
     /**
-     * @Route("/", name="index")
+     * @Route("/{id}", name="index")
+     * @param PatientRepository $patients
+     * @param Doctor $doctor
+     * @return Response
      */
-    public function index(UserRepository $users)
+    public function index(PatientRepository $patients, Doctor $doctor)
     {
+
         return $this->render('admin/doctor/index.html.twig', [
-            'myPatients' => $users->findBy(['doctor'=>$this->getUser()->getId()])
+            'myPatients' => $patients->findBy(['doctor'=>$doctor->getId()]),
+            'doctor' => $doctor
         ]);
     }
 
     /**
-     * @Route("/add-patient", name="add_patient")
+     * @Route("/add-patient/{id}", name="add_patient")
+     * @param Request $request
+     * @param PatientRepository $patientRepository
+     * @param Doctor $doctor
+     * @return Response
      */
-    public function addPatient(Request $request, PatientRepository $patientRepository)
+    public function addPatient(Request $request, PatientRepository
+    $patientRepository, Doctor $doctor)
     {
-
         return $this->render('admin/doctor/addPatient.html.twig', [
-            'allPatients' => $userRepository->findAll(),
+            'allPatients' => $patientRepository->findAll(),
+            'doctor' => $doctor
         ]);
     }
-
 }

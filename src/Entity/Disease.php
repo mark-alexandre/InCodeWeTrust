@@ -46,7 +46,6 @@ class Disease
 
     public function __construct()
     {
-        $this->users = new ArrayCollection();
         $this->advice = new ArrayCollection();
         $this->patients = new ArrayCollection();
     }
@@ -107,7 +106,6 @@ class Disease
 
         return $this;
     }
-
     /**
      * @return Collection|Advice[]
      */

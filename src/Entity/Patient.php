@@ -30,7 +30,7 @@ class Patient
     private $disease;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Drugs::class, inversedBy="patients")
+     * @ORM\OneToMany(targetEntity=Drugs::class, mappedBy="patient")
      */
     private $drugs;
 
@@ -63,6 +63,11 @@ class Patient
      * @ORM\OneToMany(targetEntity=Messaging::class, mappedBy="patient")
      */
     private $messagings;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Doctor::class, inversedBy="patients")
+     */
+    private $doctor;
 
     public function __construct()
     {
@@ -247,6 +252,18 @@ class Patient
                 $messaging->setPatient(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDoctor(): ?Doctor
+    {
+        return $this->doctor;
+    }
+
+    public function setDoctor(?Doctor $doctor): self
+    {
+        $this->doctor = $doctor;
 
         return $this;
     }

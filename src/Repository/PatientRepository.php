@@ -19,22 +19,26 @@ class PatientRepository extends ServiceEntityRepository
         parent::__construct($registry, Patient::class);
     }
 
-    // /**
-    //  * @return Patient[] Returns an array of Patient objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @param int $id
+     * @return Patient[] Returns an array of Patient objects
+     */
+
+    public function removeDoctor(int $id)
     {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        //$dql = 'UPDATE patient p set p.doctor_id=NULL WHERE p.id=$id';
+        //return $this->createQueryBuilder('p')
+        //    ->update(Patient::class,'p')
+        //    ->set('p.doctor', NULL)
+        //    ->andWhere( 'id = :$id ')
+       //     ->setParameter('id', $id)
+       //     ->getQuery()
+       //     ->execute()
+       // ;
     }
-    */
+
+
+
 
     /*
     public function findOneBySomeField($value): ?Patient
