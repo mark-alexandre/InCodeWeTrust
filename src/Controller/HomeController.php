@@ -127,7 +127,7 @@ class HomeController extends AbstractController
             'messaging' => $messaging,
             'form' => $form->createView(),
             'formChat' => $formChat->createView(),
-            'messagings' =>         $messagings = $messagingRepository->findBy(array("patient" => 1), null, 10)
+            'messagings' => $messagings = $messagingRepository->findBy(array("patient" => 1), null, 10)
         ]);
 
     }
@@ -150,7 +150,7 @@ class HomeController extends AbstractController
 
         return $this->render('frontend/report/index.html.twig',
         [
-         'reports' => $pastReport
+            'reports' => $pastReport
         ]);
     }
 }
