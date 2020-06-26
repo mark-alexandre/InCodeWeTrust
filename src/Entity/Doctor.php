@@ -179,6 +179,9 @@ class Doctor
         if (!$this->patients->contains($patient)) {
             $this->patients[] = $patient;
             $patient->addDoctor($this);
+        }
+        return $this;
+    }
 
     /*
      * @return Collection|Notifications[]
