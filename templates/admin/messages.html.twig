@@ -1,0 +1,62 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Doclib - Doctor workspace{% endblock %}
+
+{% block body %}
+
+    <!-- MAIN -->
+    <div class="main">
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- RECENT USER SUBMISSION -->
+                        <div class="panel">
+                            <div class="panel-heading">
+                                {% if messages is not empty %}
+                                <h3 class="panel-title">Echanges avec {{ messages[0].patient.name }}</h3>
+                                {% endif %}
+                                <div class="right">
+                                    <button type="button" class="btn-toggle-collapse"><i class="lnr lnr-chevron-up"></i></button>
+                                    <button type="button" class="btn-remove"><i class="lnr lnr-cross"></i></button>
+                                </div>
+                            </div>
+                            <div class="panel-body no-padding">
+                                {% if messages is empty %}
+                                <h4> Absence d'historique de conversation</h4>
+                                {% endif %}
+                                {% for message in messages %}
+                                    {% if message.author is same as ('patient') %}
+                                        <p>{{ message.patient.name }} dit:</p>
+                                    {% else %}
+                                        <p>Votre réponse:</p>
+                                    {% endif %}
+                                    <h4>{{ message.date|date('d-m-y g:ia') }}</h4>
+                                    <p>{{ message.content }}</p>
+                                {% endfor %}
+                                {{ include('messaging/_form.html.twig', {'button_label': 'Update'}) }}
+                            </div>
+                            <div class="panel-footer">
+                                <div class="row">
+                                    <div class="col-md-6"><span class="panel-note"><i class="fa fa-clock-o"></i> Last 24 hours</span></div>
+                                    <div class="col-md-6 text-right"><a href="#" class="btn btn-primary">
+                                            Voir les rapports journaliers</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END RECENT USER'S SUBMISSIONS -->
+                    </div>
+                </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END MAIN CONTENT -->
+    </div>
+    <!-- END MAIN -->
+
+{% endblock %}

@@ -18,19 +18,30 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% for patient in myPatients %}
-                    <tr>
-                        <a {{ path('drugs_new', {id:patient.id}) }}><th scope="row">{{ loop.index }}</th>
-                        <td>{{ patient.name }}</td>
-                        <td>{{ patient.address }}</td>
-                        <td>{{ patient.socialNumber }}</td>
-                        <td><a href="{{ path('drugs_show', {id:patient.id}) }}"><button type="button"> Show treatment </button></a></td>
-                        <td> </td>
-                    </tr>
-                {% endfor %}
+
+               
+
+{#                {% for patient in myPatients %}#}
+{#                    <tr>#}
+{#                        <th scope="row">{{ patient.id }}</th>#}
+{#                        <td>{{ patient.name }}</td>#}
+{#                        <td>{{ patient.address }}</td>#}
+{#                        <td>{{ patient.socialNumber }}</td>#}
+{#                        <td><a href="{{ path('drugs_show', {id:patient.id}) }}"><button type="button"> Show treatment </button></a></td>#}
+{#                        <td> <a href="{{ path('doctor_remov_patient', {id:patient.id}) }}"><button type="button"> Remove </button></a> </td>#}
+{#                    </tr>#}
+{#                {% endfor %}#}
+<td colspan="6">
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="btn btn-validate btn-lg">{{ button_label|default('Submit') }}</button>
+    {{ form_end(form) }}
+</td>
+
                 </tbody>
             </table>
         </div>
     </div>
+
 {% endblock %}
 

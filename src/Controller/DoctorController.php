@@ -3,16 +3,18 @@
 namespace App\Controller;
 
 use App\Entity\Doctor;
+use App\Entity\Patient;
+use App\Form\AddPatientFormType;
 use App\Repository\PatientRepository;
-
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/doctor", name="doctor_")
+ * @Route("admin/doctor", name="doctor_")
  */
 class DoctorController extends AbstractController
 {
@@ -22,28 +24,23 @@ class DoctorController extends AbstractController
      * @param Doctor $doctor
      * @return Response
      */
-    public function index(PatientRepository $patients, Doctor $doctor)
-    {
 
+    public function index(PatientRepository $patients, Doctor $doctor, Request $request, EntityManagerInterface $em)
+    {
+        $form = $this->createForm(
+            AddPatientFormType::class,$doctor);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $this->getDoctrine()->getManager()->flush();
+            return $this->redirectToRoute('doctor_index',['id'=>$doctor->getId()]);
+        }
         return $this->render('admin/doctor/index.html.twig', [
-            'myPatients' => $patients->findBy(['doctor'=>$doctor->getId()]),
-            'doctor' => $doctor
-        ]);
-    }
-
-    /**
-     * @Route("/add-patient/{id}", name="add_patient")
-     * @param Request $request
-     * @param PatientRepository $patientRepository
-     * @param Doctor $doctor
-     * @return Response
-     */
-    public function addPatient(Request $request, PatientRepository
-    $patientRepository, Doctor $doctor)
-    {
-        return $this->render('admin/doctor/addPatient.html.twig', [
-            'allPatients' => $patientRepository->findAll(),
-            'doctor' => $doctor
+            'myPatients' => $patients->findAll(),
+            'doctor' => $doctor,
+            'form'=>$form->createView(),
         ]);
     }
 }
+

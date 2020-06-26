@@ -3,31 +3,37 @@
 {% block title %}Hello DoctorController!{% endblock %}
 
 {% block body %}
-<div class="container-fluid">
-    <div class="container">
-        <h1>Reports</h1>
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Name</th>
-                <th scope="col">Address</th>
-                <th scope="col">Security Social Number</th>
-                <th scope="col">Add a patient</th>
-            </tr>
-            </thead>
-            <tbody>
+
+    <div class="container-fluid">
+        <div class="container">
+            <h1>Reports</h1>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Security Social Number</th>
+                    <th scope="col">Add a patient</th>
+                </tr>
+                </thead>
+                <tbody>
+
                 {% for patient in allPatients %}
                     <tr>
                         <th scope="row">{{ loop.index }}</th>
                         <td>{{ patient.name }}</td>
                         <td>{{ patient.address }}</td>
                         <td>{{ patient.socialNumber }}</td>
-                        <td> <a href="{{ path('doctor_add_new_patient', {patient:patient.id, doctor:doctor.id}) }}"><button type="button"> Add </button> </a></td>
+                        <td> <a href="{{ path('doctor_associate',{'id':app.user.doctor.id,'idPatient':patient.id})}}"><button type="button"> Add </button></a> </td>
                     </tr>
                 {% endfor %}
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+
 {% endblock %}

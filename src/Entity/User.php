@@ -58,6 +58,39 @@ class User implements UserInterface
      */
     private $doctor;
 
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $socialNumber;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $name;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $address;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $city;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Report::class, mappedBy="user")
+     */
+    private $reports;
+
+
+    public function __construct()
+    {
+        $this->disease = new ArrayCollection();
+        $this->report = new ArrayCollection();
+        $this->drugs = new ArrayCollection();
+        $this->reports = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {

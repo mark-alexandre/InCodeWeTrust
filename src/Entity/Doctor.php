@@ -2,12 +2,14 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\DoctorRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @ApiResource
  * @ORM\Entity(repositoryClass=DoctorRepository::class)
  */
 class Doctor
@@ -50,13 +52,20 @@ class Doctor
     private $messagesFromPatients;
 
     /**
-     * @ORM\OneToMany(targetEntity=Patient::class, mappedBy="doctor")
+     * @ORM\ManyToMany(targetEntity=Patient::class, mappedBy="doctor", cascade={"persist", "remove"})
      */
     private $patients;
+
+    /*
+     * @ORM\OneToMany(targetEntity=Notifications::class, mappedBy="doctor")
+     */
+    private $notifications;
+
 
     public function __construct()
     {
         $this->users = new ArrayCollection();
+        $this->notifications = new ArrayCollection();
         $this->messagesFromPatients = new ArrayCollection();
         $this->patients = new ArrayCollection();
     }
@@ -169,7 +178,24 @@ class Doctor
     {
         if (!$this->patients->contains($patient)) {
             $this->patients[] = $patient;
-            $patient->setDoctor($this);
+            $patient->addDoctor($this);
+        }
+        return $this;
+    }
+
+    /*
+     * @return Collection|Notifications[]
+     */
+    public function getNotifications(): Collection
+    {
+        return $this->notifications;
+    }
+
+    public function addNotification(Notifications $notification): self
+    {
+        if (!$this->notifications->contains($notification)) {
+            $this->notifications[] = $notification;
+            $notification->setDoctor($this);
         }
 
         return $this;
@@ -179,9 +205,22 @@ class Doctor
     {
         if ($this->patients->contains($patient)) {
             $this->patients->removeElement($patient);
-            // set the owning side to null (unless already changed)
+
+            $patient->removeDoctor($this);
             if ($patient->getDoctor() === $this) {
-                $patient->setDoctor(null);
+                  $patient->setDoctor(null);
+              }
+        }
+        return $this;
+    }
+
+    public function removeNotification(Notifications $notification): self
+    {
+        if ($this->notifications->contains($notification)) {
+            $this->notifications->removeElement($notification);
+            // set the owning side to null (unless already changed)
+            if ($notification->getDoctor() === $this) {
+                $notification->setDoctor(null);
             }
         }
 
