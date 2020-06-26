@@ -37,6 +37,13 @@
     <body data-spy="scroll" data-target="#bs-example-navbar-collapse-1" data-offset="90">
         {% include '/frontend/_front-layout/_header.html.twig' %}
         {% include '/frontend/_front-layout/_top-banner.html.twig' %}
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
         {% block body %}{% endblock %}
         {% if app.user is not null and app.user.patient.doctor is not null and is_granted('ROLE_PATIENT') %}
         {% include '/_chat-box/_chat-box.html.twig' %}
