@@ -4,9 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Messaging;
 use App\Entity\Notifications;
+use App\Entity\Patient;
 use App\Form\MessagingType;
 use App\Repository\DoctorRepository;
 use App\Repository\MessagingRepository;
+use App\Repository\PatientRepository;
 use App\Repository\UserRepository;
 use DateTime;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,6 +36,19 @@ class HomeController extends AbstractController
             return $this->redirectToRoute('home_connected');
         }
         return $this->render('frontend/index.html.twig');
+    }
+
+    /**
+     * @Route("/profile/edit", name="edit_profile")
+     * @param PatientRepository $patients
+     * @param Request $request
+     * @return Response
+     */
+    public function editProfile(PatientRepository $patients, EntityManagerInterface $em, Request $request)
+    {
+        $messaging = new Messaging();
+        $formChat = $this->createForm(MessagingType::class, $messaging);
+        return $this->render('frontend/editProfile.html.twig', ['formChat' => $formChat->createView()]);
     }
 
     /**

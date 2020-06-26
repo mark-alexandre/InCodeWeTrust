@@ -15,9 +15,10 @@
                 <nav class="nav flex-column" style="display: flex; justify-content: center;">
                     <a class="btn btn-primary" style="width: 140px; font-size: 14px" href="{{ path('complete_index')
                     }}">About</a>
-                    <a class="btn btn-primary" style="width: 140px; font-size: 14px" href="">Edit my profile</a>
-                    <a class="btn btn-primary" style="width: 140px; font-size: 14px" href="">Daily report</a>
-                    <a class="btn btn-primary" style="width: 140px; font-size: 14px" href="#">See my reports</a>
+                    <a class="btn btn-primary" style="width: 140px; font-size: 14px" href="{{ path('edit_profile') }}">Edit my profile</a>
+                    <a class="btn btn-primary" style="width: 140px; font-size: 14px" href="{{ path('home_connected') }}">Daily report</a>
+                    <a class="btn btn-primary" style="width: 140px; font-size: 14px" href="{{ path('past_report') }}">See my
+                        reports</a>
                 </nav>
                 <div class="row">
                     <div class="col-md-12 ml-auto mr-auto" style="margin-top: 30px">
@@ -42,7 +43,7 @@
                             <th scope="col">Result</th>
                         </tr>
                         </thead>
-                        <tbody>
+                        <tbody style="text-align: left;">
                         {% if reports == "There is no past report" %}
                             <td colspan="3">{{ reports }}</td>
                         {% else %}

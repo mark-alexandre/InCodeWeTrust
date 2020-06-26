@@ -12,7 +12,7 @@
     <div style="max-width: 800px; padding: 20px; margin: 0 auto">
         <div class="main main-raised">
             <div class="profile-content" style="padding: 20px; height: calc(100vh - 200px)">
-                <nav class="nav flex-column" style="display: flex; justify-content: center;">
+                <nav class="nav flex-column" style="display: flex; justify-content: center; font-size: 16px">
                     <a class="btn btn-primary" style="width: 140px; font-size: 14px" href="{{ path('complete_index')
                     }}">About</a>
                     <a class="btn btn-primary" style="width: 140px; font-size: 14px" href="{{ path('edit_profile') }}">Edit my
@@ -34,14 +34,29 @@
                         </div>
                     </div>
                 </div>
-                <div class="description text-center d-flex flex-column">
-                    <div>{{ not userObj is empty ? 'Address : ' ~ userObj.address }}</div>
-                    <div>{{ not userObj is empty ? 'City : ' ~ userObj.city }}</div>
-                    <div>{{ userType == 'doctor' ? 'License number : ' ~ userObj.numberLicense }}</div>
-                    <div>{{ userType == 'patient' ? 'Social number : ' ~ userObj.socialNumber }}</div>
-                </div>
-
+                <form>
+                    <div class="connected">
+                        <div>
+                            <label>Full Name</label>
+                            <input type="text">
+                        </div>
+                        <div>
+                            <label>Address</label>
+                            <input type="text">
+                        </div>
+                        <div>
+                            <label>City</label>
+                            <input type="text">
+                        </div>
+                        <div>
+                            <label>Social Number</label>
+                            <input type="text">
+                        </div>
+                        <a class="btn btn-primary" style="font-size: 14px; float: right;">Submit</a>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 {% endblock %}
+

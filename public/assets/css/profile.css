@@ -57,6 +57,23 @@ a .material-icons {
     content: "";
 }
 
+.connected > div > label {
+    display: block;
+    text-align: center;
+}
+
+.connected > div > input {
+    margin: 0 auto 20px auto;
+    display: block;
+}
+
+.connected button {
+    font-size: 14px;
+    float: right;
+}
+
+
+
 .header-filter::before {
     background: rgba(0,0,0,.5);
 }
