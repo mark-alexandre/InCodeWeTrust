@@ -45,9 +45,15 @@
             {% endfor %}
         {% endfor %}
         {% block body %}{% endblock %}
-        {% if app.user is not null and app.user.patient.doctor is not null and is_granted('ROLE_PATIENT') %}
-        {% include '/_chat-box/_chat-box.html.twig' %}
+        {% if is_granted('ROLE_PATIENT') %}
+            {% else %}
+                {% if app.user is not null %}
+                    {% app.user.patient.doctor is not null  %}
+                    {% include '/_chat-box/_chat-box.html.twig' %}
+                {% endif %}
+            {% endif %}
         {% endif %}
+
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
             <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -83,7 +89,9 @@
             <script src="{{ asset('assets/js/gmaps.min.js') }}"></script>
 
             <script src="{{ asset('assets/js/theme.js') }}"></script>
-            {% if app.user is not null and app.user.patient.doctor is not null and is_granted('ROLE_PATIENT') %}
+            {% if is_granted('ROLE_DOCTOR') %}
+            {% else %}
+            {% if app.user is not null and app.user.patient.doctor is not null %}
             <script>
                 $(document).ready(function test() {
                     setInterval(function test() {
@@ -141,6 +149,7 @@
                     }, 15000)
                 })
             </script>
+                {% endif %}
             {% endif %}
 
         {% endblock %}

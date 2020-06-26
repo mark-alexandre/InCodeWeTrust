@@ -45,8 +45,13 @@
             {% endfor %}
         {% endfor %}
         {% block body %}{% endblock %}
-        {% if app.user is not null and app.user.patient.doctor is not null and is_granted('ROLE_PATIENT') %}
-            {% include '/_chat-box/_chat-box.html.twig' %}
+        {% if is_granted('ROLE_DOCTOR') %}
+        {% else %}
+            {% if app.user is not null %}
+                {% if app.user.patient.doctor is not null  %}
+                {% include '/_chat-box/_chat-box.html.twig' %}
+                {% endif %}
+            {% endif %}
         {% endif %}
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
@@ -84,7 +89,9 @@
 
             <script src="{{ asset('assets/js/theme.js') }}"></script>
             <script>
-                {% if app.user is not null and app.user.patient.doctor is not null and is_granted('ROLE_PATIENT') %}
+                {% if is_granted('ROLE_DOCTOR') %}
+                {% else %}
+                    {% if app.user is not null and app.user.patient.doctor is not null %}
                 $(document).ready(function test() {
                     setInterval(function test() {
                         let ajaxResult = $(".msg_container_base");
@@ -141,6 +148,7 @@
                             .catch(() => console.log('error'));
                     }, 15000)
                 })
+                    {% endif %}
                 {% endif %}
             </script>
 

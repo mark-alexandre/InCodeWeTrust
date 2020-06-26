@@ -26,19 +26,6 @@ class PatientRepository extends ServiceEntityRepository
      * @return Patient[] Returns an array of Patient objects
      */
 
-    public function removeDoctor(int $id)
-    {
-        //$dql = 'UPDATE patient p set p.doctor_id=NULL WHERE p.id=$id';
-        //return $this->createQueryBuilder('p')
-        //    ->update(Patient::class,'p')
-        //    ->set('p.doctor', NULL)
-        //    ->andWhere( 'id = :$id ')
-       //     ->setParameter('id', $id)
-       //     ->getQuery()
-       //     ->execute()
-       // ;
-    }
-
 
 
 

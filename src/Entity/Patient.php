@@ -69,7 +69,7 @@ class Patient
      */
     private $doctor;
 
-    /*
+    /**
      * @ORM\OneToMany(targetEntity=Notifications::class, mappedBy="patient")
      */
     private $notifications;
