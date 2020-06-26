@@ -32,9 +32,9 @@ class MessagingController extends AbstractController
         $encoders = [new JsonEncoder()]; // If no need for XmlEncoder
         $normalizers = [new ObjectNormalizer()];
         $serializer = new Serializer($normalizers, $encoders);
-            $patient = $this->getUser()->getPatient();
+            $patient = $this->getUser()->getPatient()->getId();
 
-        $messagings = $messagingRepository->findBy(array("patient" => $patient), null, 10);
+        $messagings = $messagingRepository->messages($patient);
         $jsonMessages = $serializer->serialize($messagings, 'json', [
             'circular_reference_handler' => function ($object) {
                 return $object->getId();

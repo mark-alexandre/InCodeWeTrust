@@ -31,4 +31,16 @@ class MessagingRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function messages($patient)
+    {
+        return $this->createQueryBuilder('m')
+            ->select("m.content")
+            ->addSelect('m.date')
+            ->addSelect('m.author')
+            ->where("m.patient = '$patient'")
+            ->setMaxResults(15)
+            ->getQuery()
+            ->getResult();
+    }
 }
