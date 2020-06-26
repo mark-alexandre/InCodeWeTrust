@@ -64,23 +64,27 @@ class HomeController extends AbstractController
             $report->setUser($patient);
             $entityManager->persist($report);
 
-            $notif = new Notifications();
-            $notif->setReport($report);
-            $notif->setDate($today);
-            $patientN = $patient->getPatient();
-            $notif->setPatient($patientN);
-            $doctor = $patientN->getDoctor();
-            $notif->setDoctor($doctor[0]);
-            if($report->getResult() < 135 ) {
-                $notif->setType("success");
-            } else if ($report->getResult() > 180 ) {
-                $notif->setType("danger");
-                $notif->setState("waiting");
-            } else {
-                $notif->setType("warning");
-                $notif->setState("waiting");
+            $hasDoctor = $this->getUser()->getPatient()->getDoctor();
+            if ($hasDoctor != null) {
+                $notif = new Notifications();
+                $notif->setReport($report);
+                $notif->setDate($today);
+                $patientN = $patient->getPatient();
+                $notif->setPatient($patientN);
+                $doctor = $patientN->getDoctor();
+                $notif->setDoctor($doctor[0]);
+                if($report->getResult() < 135 ) {
+                    $notif->setType("success");
+                } else if ($report->getResult() > 180 ) {
+                    $notif->setType("danger");
+                    $notif->setState("waiting");
+                } else {
+                    $notif->setType("warning");
+                    $notif->setState("waiting");
+                }
+                $entityManager->persist($notif);
+
             }
-            $entityManager->persist($notif);
 
             $entityManager->flush();
             return $this->redirectToRoute('home_connected');
@@ -97,7 +101,7 @@ class HomeController extends AbstractController
                 $this->addFlash('success', "C'est parfait pour aujourd'hui! Vous avez déjà rempli votre rapport");
             }
         } else {
-            $this->addFlash('danger', 'Pensez à remplir votre rapport Quotidien! Il faut commencer maintenant');
+                $this->addFlash('danger', 'Pensez à remplir votre rapport Quotidien! Il faut commencer maintenant');
         }
 
         $patient = $patient->getPatient();
