@@ -90,7 +90,7 @@ class AdminController extends AbstractController
      * @return Response
      */
     public function messagesPatient(Patient $patient, MessagingRepository $messagingRepository, Request $request, DoctorRepository $doctorRepository, NotificationsRepository $notificationsRepository){
-        $doctor = $this->getUser();
+        $doctor = $this->getUser()->getDoctor();
         $messages = $messagingRepository->findBy(array('patient' => $patient, 'doctor' => $doctor));
 
         $result = $notificationsRepository->countNotifs($doctor->getId());

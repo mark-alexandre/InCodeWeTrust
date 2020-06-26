@@ -56,8 +56,8 @@ class Doctor
      */
     private $patients;
 
-    /*
-     * @ORM\OneToMany(targetEntity=Notifications::class, mappedBy="doctor", nullable=true)
+    /**
+     * @ORM\OneToMany(targetEntity=Notifications::class, mappedBy="doctor")
      */
     private $notifications;
 
@@ -183,7 +183,7 @@ class Doctor
         return $this;
     }
 
-    /*
+    /**
      * @return Collection|Notifications[]
      */
     public function getNotifications(): Collection
