@@ -69,8 +69,8 @@ class HomeController extends AbstractController
             $notif->setDate($today);
             $patientN = $patient->getPatient();
             $notif->setPatient($patientN);
-            $doctor = $doctorRepository->findOneBy(array('id'=>'1'));
-            $notif->setDoctor($doctor);
+            $doctor = $patientN->getDoctor();
+            $notif->setDoctor($doctor[0]);
             if($report->getResult() < 135 ) {
                 $notif->setType("success");
             } else if ($report->getResult() > 180 ) {
