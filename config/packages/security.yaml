@@ -39,7 +39,6 @@ security:
          - { path: ^/doctor, roles: ROLE_DOCTOR }
          - { path: ^/admin, roles: ROLE_DOCTOR }
 
-
     role_hierarchy:
         ROLE_PATIENT: ROLE_USER
         ROLE_DOCTOR: ROLE_USER

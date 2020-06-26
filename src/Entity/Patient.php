@@ -65,6 +65,11 @@ class Patient
     private $messagings;
 
     /**
+     * @ORM\ManyToMany(targetEntity=Doctor::class, inversedBy="patients")
+     */
+    private $doctor;
+
+    /*
      * @ORM\OneToMany(targetEntity=Notifications::class, mappedBy="patient")
      */
     private $notifications;
@@ -75,6 +80,7 @@ class Patient
         $this->drugs = new ArrayCollection();
         $this->reports = new ArrayCollection();
         $this->messagings = new ArrayCollection();
+        $this->doctor = new ArrayCollection();
         $this->notifications = new ArrayCollection();
     }
 
@@ -258,6 +264,22 @@ class Patient
     }
 
     /**
+     * @return Collection|Doctor[]
+     */
+    public function getDoctor(): Collection
+    {
+        return $this->doctor;
+    }
+
+    public function addDoctor(Doctor $doctor): self
+    {
+        if (!$this->doctor->contains($doctor)) {
+            $this->doctor[] = $doctor;
+        }
+        return $this;
+    }
+  
+    /*
      * @return Collection|Notifications[]
      */
     public function getNotifications(): Collection
@@ -275,6 +297,18 @@ class Patient
         return $this;
     }
 
+
+    public function removeDoctor(Doctor $doctor): self
+    {
+        if ($this->doctor->contains($doctor)) {
+            $this->doctor->removeElement($doctor);
+            // set the owning side to null (unless already changed)
+              if ($doctor->getPatient() === $this) {
+                  $doctor->setPatient(null);
+              }
+        }
+    }
+          
     public function removeNotification(Notifications $notification): self
     {
         if ($this->notifications->contains($notification)) {
@@ -284,7 +318,6 @@ class Patient
                 $notification->setPatient(null);
             }
         }
-
         return $this;
     }
 }

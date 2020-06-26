@@ -139,11 +139,11 @@ class HomeController extends AbstractController
      */
     public function showAllReport(ReportRepository $reportRepository):Response
     {
-        $userId = $this->getUser()->getId();
+        $userId = $this->getUser()->getPatient()->getId();
 
         if($reportRepository->findBy(['user'=>$userId]))
         {
-            $pastReport = $reportRepository->findBy(['user'=>$userId]);
+            $pastReport = $reportRepository->findBy(['patient'=>$userId]);
         } else {
             $pastReport = 'There is no past report';
         }
