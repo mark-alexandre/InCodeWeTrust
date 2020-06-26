@@ -1,14 +1,14 @@
 {% extends 'frontend/base.html.twig' %}
-{% block title %}Recherche d'aliment {% endblock %}
+{% block title %}Search foods {% endblock %}
 
 {% block body %}
 
 
-    <h1>Recherche un aliment en fonction de son taux de sel </h1>
+    <h1>Search for a food according to its salt level </h1>
 {{ form_start(form) }}
-    {{ form_row(form.foodSearch, {'attr' : {'placeholder': "Entrer un aliment"}, 'label': 'Un aliment :   ' }) }}
+    {{ form_row(form.foodSearch, {'attr' : {'placeholder': "Enter a food"}, 'label': 'Food :   ' }) }}
     <br>
-    {{ form_row(form.number, {'attr' : {'placeholder': "Entrer une série"}, 'label':'Entrer une valeur : '}) }}
+    {{ form_row(form.number, {'attr' : {'placeholder': "Enter a salt level"}, 'label':'Enter a level : '}) }}
     <button type="submit" class="btn btn-primary" name="btnSearch">Rechercher</button>
     <br>
 {{ form_end(form) }}
@@ -22,7 +22,7 @@
                     <p>{{ p.generic_name}}</p>
                 {% endif %}
             {% endif %}
-            {% else %} <p>Il n'y a pas de tel produit </p>
+            {% else %} <p>No food found at under this salt level </p>
         {% endfor %}
     {% endif %}
 
